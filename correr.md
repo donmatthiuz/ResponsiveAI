@@ -1,6 +1,7 @@
 
 # SERVER
-uvicorn main:app --reload
+python main.py --host 0.0.0.0 --port 8000
+
 
 # CLIENTE
 
