@@ -1,6 +1,8 @@
 # Informe · Auditoría de un clasificador de toxicidad
 CC3106 · Desarrollo de Software Responsable · Laboratorio 3
 
+[Repositorio ResponsiveAI - Lab 3](https://github.com/donmatthiuz/ResponsiveAI/tree/lab3) 
+
 Integrantes: Gustavo Adolfo Cruz Bardales (22779) · Mathew Alexander Cordero Aquino (22982)
 
 Caja negra A: `unitary/toxic-bert` (inglés, Jigsaw 2018 / comentarios de Wikipedia).
