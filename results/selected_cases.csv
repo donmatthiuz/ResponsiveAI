@@ -1,0 +1,4 @@
+﻿order,criterion,test_position,dataset_index,true_class,predicted_class,comparison_class,confidence,margin,correct
+1,Acierto de confianza mediana,188,1089,3,3,9,0.8166666666666667,0.7266666666666667,True
+2,Acierto correcto de menor margen,59,1593,2,2,0,0.33,0.00666666666666671,True
+3,Error de mayor confianza,51,1553,8,1,8,0.57,0.4099999999999999,False

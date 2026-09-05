@@ -1,0 +1,18 @@
+# Entorno de referencia verificado con Python 3.11 de 64 bits.
+numpy==2.3.4
+scipy==1.16.3
+pandas==2.3.3
+scikit-learn==1.7.2
+matplotlib==3.11.1
+shap==0.51.0
+joblib==1.5.2
+threadpoolctl==3.6.0
+numba==0.67.0
+llvmlite==0.49.0
+slicer==0.0.8
+cloudpickle==3.1.2
+tqdm==4.70.0
+jupyterlab==4.4.10
+nbformat==5.10.4
+nbconvert==7.16.6
+ipykernel==7.1.0
