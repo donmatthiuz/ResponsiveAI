@@ -1,0 +1,18 @@
+flowchart TD
+  A([Usuario abre AI News]) --> B[Feed de noticias demo<br/>ordenado en código]
+  B --> C[Escribe una pregunta<br/>sobre una noticia]
+  C --> D[POST /chat<br/>message, user_id, previous_response_id]
+  D --> E[(MongoDB<br/>nombre, locale, temas,<br/>artículos guardados)]
+  E --> F[Prompt de sistema<br/>todavía el de NOVU finanzas]
+  F --> G[gpt-5-mini<br/>store=true, hasta 1600 tokens]
+  G --> H[Texto libre sin fuente<br/>ni nivel de certeza]
+  G -. 429 / 503 .-> I[Error genérico<br/>sin alternativa]
+
+  classDef llm fill:#fde2cf,stroke:#c2410c,color:#431407
+  classDef code fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef dato fill:#f1f5f9,stroke:#475569,color:#0f172a
+  classDef mal fill:#fee2e2,stroke:#b91c1c,color:#450a0a
+  class G llm
+  class B,D,F code
+  class E dato
+  class H,I mal

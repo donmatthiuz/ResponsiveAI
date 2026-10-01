@@ -1,0 +1,15 @@
+flowchart LR
+  Q[Pregunta sin<br/>datos personales] -- siempre --> J[TypeSafe, EE. UU.<br/>Jev 1.13.0]
+  N[Párrafos de la noticia<br/>contenido público] -- siempre --> J
+  Q -- sólo ruta explicación --> G[OpenAI, EE. UU.<br/>gpt-5-mini, store=false]
+  N -- sólo párrafos relevantes --> G
+  X[No sale de AI News<br/>perfil, correo, temas,<br/>historial, registros]
+
+  classDef llm fill:#fde2cf,stroke:#c2410c,color:#431407
+  classDef jev fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef priv fill:#f1f5f9,stroke:#475569,color:#0f172a
+  classDef no fill:#dcfce7,stroke:#15803d,color:#052e16
+  class G llm
+  class J jev
+  class Q,N priv
+  class X no

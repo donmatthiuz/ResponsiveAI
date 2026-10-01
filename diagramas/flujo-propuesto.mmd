@@ -1,0 +1,24 @@
+flowchart TD
+  A([Usuario abre una noticia]) --> B{Toca una sugerencia<br/>o escribe}
+  B -- Fecha, fuente, enlace --> C[Metadatos del artículo]
+  B -- Resumen --> C2[Resumen de la fuente<br/>o en caché]
+  B -- Pregunta libre --> D[Quitar correos, teléfonos<br/>y números de DPI]
+  D --> E[Una llamada a Jev<br/>intención, párrafo que responde,<br/>¿la noticia lo contiene?, ¿tema sensible?]
+  E --> F{Ruta según<br/>respuesta y confianza}
+  F -- Dato puntual,<br/>confianza alta --> G[Cita del párrafo N<br/>resaltado en la noticia]
+  F -- Explicación o contexto --> H[gpt-5-mini con la pregunta<br/>y los párrafos relevantes<br/>store=false]
+  F -- Fuera de tema o sensible --> I[Mensaje breve<br/>y volver a la noticia]
+  F -- Confianza baja --> J[No lo encontré con claridad<br/>ver párrafos candidatos,<br/>reformular o pedir explicación]
+  G --> K[¿Te sirvió?<br/>Reportar error]
+  H --> K
+  J --> K
+  K --> L[(Registro sin texto<br/>ruta, confianza, reporte)]
+
+  classDef llm fill:#fde2cf,stroke:#c2410c,color:#431407
+  classDef jev fill:#dbeafe,stroke:#1d4ed8,color:#172554
+  classDef code fill:#dcfce7,stroke:#15803d,color:#052e16
+  classDef inc fill:#fef9c3,stroke:#a16207,color:#422006
+  class H llm
+  class E jev
+  class B,C,C2,D,F,G,I,K,L code
+  class J inc
