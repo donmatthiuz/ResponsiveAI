@@ -90,7 +90,7 @@ cd lab
 | Dashboard | projects/248394644314/dashboards/9e847e3b-cd26-45f6-9cdf-de9c34ffbf93, nueve widgets tras añadir la gráfica manual de errores |
 | SQL errores | Tres filas, books 20/0.35, clothing 18/0.2777778, electronics 22/0.5; gráfica manual visible en el dashboard |
 | Reparación de SQL | Aplicada y comprobada por el usuario: errores y latencia p50/p95 visibles; nueva exportación final del dashboard pendiente |
-| Hora oficial de 6000 intentos / 3600 s | No ejecutada |
+| Hora oficial de6000 intentos /3600 s | En curso:official-20261031T025905Z; t0=2026-10-31T03:01:22.409460Z; fin de envíos previsto04:01:22.409460Z; resumen final pendiente |
 | Exportación/captura | JSON real y 60 logs exportados; falta captura final y exportación tras validar todos los paneles |
 | Análisis con métricas nativas y SQL ejecutado | Pendiente |
 | Terraform destroy | Pendiente al finalizar análisis oficial y guardar evidencia; recursos reales activos |
@@ -100,6 +100,6 @@ El primer build falló al leer el bucket de staging a pesar del rol objectViewer
 
 La exportación del dashboard permitió comparar la gráfica SQL manual que el usuario confirmó con las originales. Se adoptaron sus parámetros de dimensión y desglose (límite positivo, selección count y orden descendente). Después se migró la latencia a una sola medida y un solo desglose que incorpora segmento/operación/percentil. El usuario ejecutó la consulta en Analytics, aplicó el cambio y confirmó por captura que ambos paneles muestran datos. Se conserva la gráfica manual como referencia. Cinco pruebas locales de observabilidad pasan, incluida la migración de exportaciones previas.
 
-Configuración previa a la hora oficial comprobada: URL real,6000 solicitudes, μ30,σ10,semilla42,invalid_share0.08, electronics [35,45). El simulador tendrá escala1, preparación fuera del reloj,120 s de quietud,3600 s de ventana y drenado final. `systemd-inhibit` está disponible para bloquear suspensión durante la ejecución. El manifiesto de fuentes y versiones previo se conserva en `evidence/pre-official/manifest.json`. La hora todavía no se marca como iniciada hasta que el usuario ejecute el comando y confirme la preparación.
+Configuración previa a la hora oficial comprobada: URL real,6000 solicitudes, μ30,σ10,semilla42,invalid_share0.08, electronics [35,45). El usuario inició el simulador con escala1 y systemd-inhibit. Se comprobaron1119 recursos preparados,120 s de quietud y el calendario de3600 s. La ventana es2026-10-31T03:01:22.409460Z a04:01:22.409460Z (30 de octubre21:01:22 a22:01:22 en Guatemala); el drenado puede extender el proceso. El manifiesto de fuentes previo se conserva en `evidence/pre-official/manifest.json` y en el directorio de la corrida. Se observaron las primeras filas CSV, pero summary.json todavía no existe; completitud y conteos finales pendientes.
 
 No se puede declarar el laboratorio completo mientras la hora oficial, la observabilidad completa, el análisis y el cierre sigan pendientes. Los pasos concretos para el usuario están en `pasos_gcp.md`.

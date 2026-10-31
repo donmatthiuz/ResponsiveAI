@@ -10,7 +10,7 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 | 4 Infraestructura | validado | Proyecto adfasdfasfd-1899a confirmado; login/ADC; plan real y apply completados tras un reintento del build |
 | 5 Observabilidad | validado | Capturas del usuario confirman las cuatro fuentes, incluidos errores SQL y latencia SQL p50/p95 tras el segundo ajuste |
 | 6 Smoke GCP | validado | Contrato HTTP aprobado, 500 artificial correlacionado, 60/60 intentos y logs, SQL de latencia ejecutado con valores y gráfico visible |
-| 7 Hora oficial | pendiente | Configuración oficial comprobada:6000/μ30/σ10/semilla42/invalid_share0.08; listo para iniciar con escala1 y bloqueo de suspensión |
+| 7 Hora oficial | en curso | official-20261031T025905Z:1119 recursos preparados; escala1; t0=2026-10-31T03:01:22.409460Z, fin previsto04:01:22.409460Z; aún sin resumen final |
 | 8 Análisis | en curso | Informe de smoke GCP generado y correlación 60/60 sin discrepancias; faltan datos de la hora oficial |
 | 9 Cierre | pendiente | Recursos GCP activos; destruir solamente después de preservar evidencia oficial |
 
@@ -25,7 +25,7 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 - [x] Pruebas locales y validación Terraform; resultados en `evidence/local-validation/checks.json`.
 - [x] Función desplegada y outputs obtenidos; URL invocada y vista Analytics consultada con éxito.
 - [x] Métricas existentes antes del primer tráfico GCP: createTime 2026-10-31T02:02:58/59Z, archivos en evidence/gcp-setup/.
-- [ ] Una ventana real de 3600 s con 6000 intentos: lista para iniciar, ejecución aún no confirmada.
+- [ ] Una ventana real de 3600 s con 6000 intentos: en curso; esperar summary.json para verificar completitud y conteos.
 - [x] Dashboard único con las cuatro fuentes visibles en el smoke: incluye ambos SQL originales y logs; falta retarget y evidencia de la hora oficial.
 - [ ] Evidencia oficial de una hora: ya hay JSON y 60 logs del smoke GCP; falta la corrida oficial, captura final y su análisis.
 - [ ] Limpieza de GCP verificada: infraestructura activa y cierre pendiente.
@@ -43,3 +43,7 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 - `infra/terraform.tfvars` selecciona esa propuesta mediante dashboard_override_file. Para cambiar posteriormente de corrida, renderizar desde el JSON final exportado y actualizar ese override; las variables analytics_* no afectan un archivo override ya renderizado.
 
 La implementación y el smoke no equivalen al laboratorio completo. Se continúa paso a paso con el usuario; [pasos_gcp.md](pasos_gcp.md) documenta el procedimiento general.
+
+## Hora oficial en curso
+
+Corrida `official-20261031T025905Z`, preparación completa de1119 recursos, quietud120 s y escala1. Inicio medido:30 de octubre21:01:22 (Guatemala, UTC−6); fin previsto de envíos:22:01:22. Se verificó el calendario y se observaron las primeras filas CSV. No se acredita la hora completa ni los6000 intentos hasta revisar el resumen final. El manifiesto de fuentes previo se copió al directorio de evidencia de esa corrida.

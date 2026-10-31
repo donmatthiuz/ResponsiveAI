@@ -1,0 +1,10 @@
+{
+  "run_id": "official-20261031T025905Z",
+  "status": "running",
+  "preparation_confirmed_resources": 1119,
+  "window_start_utc": "2026-10-31T03:01:22.409460+00:00",
+  "expected_window_end_utc": "2026-10-31T04:01:22.409460+00:00",
+  "timezone": "America/Guatemala",
+  "complete_run_verified": false,
+  "note": "Metadata de seguimiento; el resultado final lo determina summary.json generado por el simulador."
+}

@@ -1,0 +1,62 @@
+{
+  "run_id": "official-20261031T025905Z",
+  "config": {
+    "target_url": "https://orders-api-gfr6cqd5yq-uc.a.run.app",
+    "n_requests": 6000,
+    "mu_min": 30,
+    "sigma_min": 10,
+    "invalid_share": 0.08,
+    "seed": 42,
+    "scenarios": [
+      {
+        "start_min": 35,
+        "end_min": 45,
+        "effect": "double_errors",
+        "category": "electronics"
+      }
+    ]
+  },
+  "seed": 42,
+  "time_scale": 1.0,
+  "execution_kind": "one_hour_execution",
+  "status": "complete",
+  "incomplete_reason": null,
+  "window_start_utc": "2026-10-31T03:01:22.409460+00:00",
+  "window_end_utc": "2026-10-31T04:01:22.409460+00:00",
+  "finished_at_utc": "2026-10-31T04:01:22.415622+00:00",
+  "elapsed_s": 3600.0061920189983,
+  "programmed": 6000,
+  "sent": 6000,
+  "completed": 6000,
+  "http_responses": 6000,
+  "http_status_codes": {
+    "409": 184,
+    "201": 2658,
+    "200": 2702,
+    "500": 114,
+    "404": 181,
+    "400": 161
+  },
+  "transport_errors": {},
+  "intentions": {
+    "invalid_state": 184,
+    "valid": 5474,
+    "not_found": 181,
+    "invalid_payload": 161
+  },
+  "operations": {
+    "cancel": 1377,
+    "create": 2879,
+    "get": 1744
+  },
+  "client_latency_ms_percentiles": {
+    "50": 110.31193849703413,
+    "95": 248.94110339446348,
+    "99": 554.2842057495009
+  },
+  "dispatch_delay_ms_percentiles": {
+    "50": 0.8596522573611765,
+    "95": 1.9541883454849092,
+    "99": 2.392988856215653
+  }
+}
