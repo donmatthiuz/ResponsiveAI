@@ -1,0 +1,18 @@
+{
+  "target_url": "http://127.0.0.1:8080",
+  "n_requests": 60,
+  "mu_min": 30,
+  "sigma_min": 10,
+  "invalid_share": 0.3,
+  "seed": 42,
+  "scenarios": [
+    {
+      "start_min": 35,
+      "end_min": 45,
+      "effect": "double_errors",
+      "category": "electronics"
+    }
+  ],
+  "run_id": "local-smoke",
+  "time_scale": 0.002
+}

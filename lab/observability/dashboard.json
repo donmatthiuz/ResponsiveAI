@@ -1,0 +1,254 @@
+{
+  "displayName": "Laboratorio · API de pedidos observable",
+  "gridLayout": {
+    "columns": 2,
+    "widgets": [
+      {
+        "title": "Solicitudes por minuto y clase HTTP · nativa",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_count\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "metric.labels.response_code_class"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s"
+            }
+          ],
+          "yAxis": {
+            "label": "Solicitudes/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Latencia nativa p50 / p95",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_latencies\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_50",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s",
+              "legendTemplate": "p50"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_latencies\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+                    "groupByFields": []
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s",
+              "legendTemplate": "p95"
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Resultados por categoría · logs",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"logging.googleapis.com/user/lab_request_completed_count\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "metric.labels.outcome",
+                      "metric.labels.category"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s"
+            }
+          ],
+          "yAxis": {
+            "label": "Solicitudes/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Latencia p95 por operación / segmento · logs",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"logging.googleapis.com/user/lab_request_latency_ms\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+                    "groupByFields": [
+                      "metric.labels.endpoint",
+                      "metric.labels.customer_tier"
+                    ]
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s"
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Errores de cliente / total por categoría · SQL",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "__ERROR_SQL__"
+                }
+              },
+              "plotType": "LINE",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "sortOrder": "SORT_ORDER_NONE",
+                  "sortColumn": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "client_error_rate",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "category",
+                  "limit": 5,
+                  "aggregationFunction": {
+                    "type": "count"
+                  },
+                  "sortOrder": "SORT_ORDER_DESCENDING"
+                }
+              ],
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "Proporción 0–1",
+            "scale": "LINEAR"
+          },
+          "chartOptions": {
+            "mode": "COLOR"
+          }
+        }
+      },
+      {
+        "title": "Latencia por segmento / operación · SQL",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "__LATENCY_SQL__"
+                }
+              },
+              "plotType": "LINE",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "sortOrder": "SORT_ORDER_NONE",
+                  "sortColumn": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "latency_ms",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "series",
+                  "limit": 100,
+                  "aggregationFunction": {
+                    "type": "count"
+                  },
+                  "sortOrder": "SORT_ORDER_DESCENDING"
+                }
+              ],
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          },
+          "chartOptions": {
+            "mode": "COLOR"
+          }
+        }
+      },
+      {
+        "title": "Eventos API · correlacionar por request_id y run_id",
+        "logsPanel": {
+          "filter": "resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"__PROJECT_ID__\" AND resource.labels.service_name = \"__SERVICE_NAME__\" AND jsonPayload.message=\"request_completed\"",
+          "resourceNames": [
+            "projects/__PROJECT_ID__"
+          ]
+        }
+      },
+      {
+        "title": "Ventana y estado de validación",
+        "text": {
+          "format": "MARKDOWN",
+          "content": "Fijar intervalo UTC desde summary.json. SQL usa run_id y phase=traffic explícitos; los filtros del dashboard no modifican sus consultas. Actualizar analytics_run_id e inicio/fin UTC al cambiar de corrida. Verificar los dos paneles SQL y exportar el JSON real antes de cerrar el laboratorio."
+        }
+      }
+    ]
+  }
+}

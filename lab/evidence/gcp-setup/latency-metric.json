@@ -1,0 +1,50 @@
+{
+  "bucketOptions": {
+    "explicitBuckets": {
+      "bounds": [
+        0.0,
+        1.0,
+        5.0,
+        10.0,
+        25.0,
+        50.0,
+        100.0,
+        250.0,
+        500.0,
+        1000.0,
+        2500.0,
+        5000.0,
+        10000.0,
+        30000.0,
+        60000.0
+      ]
+    }
+  },
+  "createTime": "2026-10-31T02:02:59.225136861Z",
+  "description": "Latencia del backend en ms; límites 0,1,5,10,25,50,100,250,500,1000,2500,5000,10000,30000,60000.",
+  "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"adfasdfasfd-1899a\" AND resource.labels.service_name=\"orders-api\" AND jsonPayload.message=\"request_completed\"",
+  "labelExtractors": {
+    "customer_tier": "EXTRACT(jsonPayload.customer_tier)",
+    "endpoint": "EXTRACT(jsonPayload.endpoint)"
+  },
+  "metricDescriptor": {
+    "description": "Latencia del backend en ms; límites 0,1,5,10,25,50,100,250,500,1000,2500,5000,10000,30000,60000.",
+    "labels": [
+      {
+        "key": "endpoint"
+      },
+      {
+        "key": "customer_tier"
+      }
+    ],
+    "metricKind": "DELTA",
+    "name": "projects/adfasdfasfd-1899a/metricDescriptors/logging.googleapis.com/user/lab_request_latency_ms",
+    "type": "logging.googleapis.com/user/lab_request_latency_ms",
+    "unit": "ms",
+    "valueType": "DISTRIBUTION"
+  },
+  "name": "lab_request_latency_ms",
+  "resourceName": "projects/adfasdfasfd-1899a/metrics/lab_request_latency_ms",
+  "updateTime": "2026-10-31T02:02:59.225136861Z",
+  "valueExtractor": "EXTRACT(jsonPayload.latency_ms)"
+}

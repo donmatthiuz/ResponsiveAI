@@ -1,0 +1,62 @@
+{
+  "scope": "local_only_not_gcp",
+  "recorded_at_utc": "2026-10-31T01:17:07.750822+00:00",
+  "python": "3.13.15",
+  "pytest": {
+    "passed": 60,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 6.78,
+    "firestore_emulator": "127.0.0.1:8085"
+  },
+  "ruff_check": "passed",
+  "ruff_format_check": "passed",
+  "git_diff_check": "passed",
+  "terraform": {
+    "version": "1.13.5",
+    "google_provider": "6.50.0",
+    "archive_provider": "2.8.1",
+    "init": "passed",
+    "fmt_check": "passed",
+    "validate": "passed",
+    "mock_tests_passed": 4,
+    "real_gcp_plan": "not_run"
+  },
+  "smoke": {
+    "evidence": "../local-smoke",
+    "programmed": 60,
+    "sent": 60,
+    "completed": 60,
+    "paired_log_events": 60,
+    "duplicate_request_ids": 0,
+    "status_mismatches": 0,
+    "time_scale": 0.002
+  },
+  "dry_run": {
+    "evidence": "../local-dry-run",
+    "programmed": 6000,
+    "sent": 0
+  },
+  "http_contract": {
+    "evidence": "../local-contract",
+    "cases": 11,
+    "observed_codes": [
+      200,
+      201,
+      400,
+      404,
+      405,
+      409,
+      500
+    ]
+  },
+  "gcp": {
+    "deployed": false,
+    "official_one_hour_run": false,
+    "dashboard_ingestion_verified": false,
+    "adc_file_present": false,
+    "resources_created": false,
+    "cleanup": "no_gcp_resources_created"
+  },
+  "local_cleanup": "API and emulator received SIGTERM; artifacts and venv retained"
+}

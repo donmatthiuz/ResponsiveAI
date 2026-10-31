@@ -1,0 +1,7 @@
+{
+  "run_id": "check-20261031T020537Z",
+  "cases": 54,
+  "contract_verified": true,
+  "observed_500": true,
+  "note": "Prueba HTTP; todav\u00eda requiere correlaci\u00f3n con logs y se\u00f1ales en GCP."
+}

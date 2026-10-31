@@ -1,0 +1,69 @@
+{
+  "scope": "pre_official_snapshot",
+  "recorded_at_utc": "2026-10-31T02:57:55.688099+00:00",
+  "official_run_started": false,
+  "config": {
+    "target_url": "https://orders-api-gfr6cqd5yq-uc.a.run.app",
+    "n_requests": 6000,
+    "mu_min": 30,
+    "sigma_min": 10,
+    "invalid_share": 0.08,
+    "seed": 42,
+    "scenarios": [
+      {
+        "start_min": 35,
+        "end_min": 45,
+        "effect": "double_errors",
+        "category": "electronics"
+      }
+    ]
+  },
+  "python": "3.13.15 (main, Aug 14 2026, 15:34:59) [Clang 22.1.3 ]",
+  "platform": "Linux-7.3.0-4-cachyos-x86_64-with-glibc2.44",
+  "dependencies": {
+    "functions-framework": "3.10.2",
+    "google-cloud-firestore": "2.34.1",
+    "numpy": "2.5.4",
+    "httpx": "0.28.1"
+  },
+  "git_commit": "3a9bfdadfda9ed9a0996c2cf9ac58753bf0ab795",
+  "git_note": "La entrega tiene archivos nuevos y cambios sin commit; los hashes identifican las fuentes efectivas.",
+  "source_sha256": {
+    "backend/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "backend/main.py": "cb40525ff7db05ce9192027daaaf5fd3e0e39640a742f01ef28d40a0b65db8df",
+    "backend/repository.py": "63b05e3313cab1e0661354b42f7de2a5db8f4f19aa57c0d0cf78e68e22830c86",
+    "backend/requirements.txt": "3a9f1465345a79c4ff70d6acfe3986ee86a5b2e6fe4e98b4cee872d756ce1b2b",
+    "infra/.terraform.lock.hcl": "f4827e10616517c3bc5458f25336cf0cbf185abf1dabf53dc354ea815c332c43",
+    "infra/firestore.tf": "f39b7885f46c52110904b59efb0c11718df5b16ae4082ee5b6851e54939ba8a4",
+    "infra/main.tf": "e9ffbe3d6483fef5c2cf0e4f674593ebbd2b263c9edfb3eea1d4431e68d85b0a",
+    "infra/observability.tf": "695ba2a339f305a9546923430b5e93ed36d7c786581c40ada0bee6219e405292",
+    "infra/outputs.tf": "6de6b73d8dbf82fbd22d437562976a4876d3291ab71d417d2097b12c42dfdc38",
+    "infra/terraform.tfvars copy.example": "e28e45abccb13ca17950604def530926d2d4213e5b129cb9f09b11fc49389ff1",
+    "infra/terraform.tfvars.example": "e28e45abccb13ca17950604def530926d2d4213e5b129cb9f09b11fc49389ff1",
+    "infra/tests/local.tftest.hcl": "31433bb716c11d8edd9d296b931d56c12047a3dc77c7ab367d3f7e9c075cb4af",
+    "infra/variables.tf": "f5b712f32e75209514635694384521c9f91f71798ffa2c4edb8fbf42762075de",
+    "infra/versions.tf": "c6fc4d80ce87db5e33bd35f2a76456225782817c77c0e9300c30ac999b9f8154",
+    "observability/dashboard.json": "5ebef6595e273e567d0b5c6d6d0d05f620e8d00365e7f494b4de747cca2bd830",
+    "observability/dashboard.smoke-review.json": "694e23f9ae4d1a3f82be685f3fb75fd6138c03d40dfcc9db9a933d83fde41f44",
+    "observability/queries/correlate_request.sql": "3cbb0b1778343582052c3abb518a65101676ca58c2f5330e9a49db72a2540dbd",
+    "observability/queries/errors_by_category.sql": "ff1b707174081ccd1a3b254a35a8db7722b96711d44ccc702cc48a193ae5600b",
+    "observability/queries/latency_by_tier.sql": "4bac419599edcd211c6a3567a2374809509ae14b76ed7ea4fdd0cc51b9885b6a",
+    "observability/queries/traffic_by_minute.sql": "b3ebcec8c12b1ea13d98f757a653683dedb97c5d7a86e29a53fe8349418f4ab0",
+    "observability/schema/monitoring-dashboard-v1.json": "de7a204173c1c63195f4d176ae635a6fc2cc859e622c37884eb46553c0ce65f0",
+    "scripts/analyze.py": "26f0f37e750990df8b582539082cff32595ad288cae696e6c18079689d0d4361",
+    "scripts/export_evidence.py": "e3b859f71d691539ec7e6fc63f98f890c1a47940d9656634b7882868f58518ff",
+    "scripts/render_observability.py": "8ff11278561f2db4bcf0b2f443eaa3cf56950298908472361499b7daa9ba354d",
+    "scripts/validate_dashboard.py": "b4a17a12b7c3a41e5c8e182a15554859df17c88d27282516609c59bf0146bf58",
+    "scripts/verify_api.py": "5cdd5d005a16addf27a0fe460c0e4aec7da8c4d85b79e7ad03da60edd4c288a3",
+    "simulator/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "simulator/config.json": "125a7a8892151c1f53b09e7ebd758b3ef44e975d9fa3de2913788f7a34ff0bff",
+    "simulator/config.smoke.json": "42637c0d5806b96eb1c11ed373e8e68c4ea2a8a8c5a3e79b66d51f51b9c274c8",
+    "simulator/requirements.txt": "ba88017c53ab314bb77d9d0d0cab3b8a4c8b9722a17069b41d8b0dcfb75b448b",
+    "simulator/simulator.py": "bf03b901667fbc201af4c3d18ac4cc1bb7673e944dce5898c9d2f2a756bc7098"
+  },
+  "observability_smoke_confirmed_by_user": true,
+  "log_metrics_created_before_traffic_utc": [
+    "2026-10-31T02:02:58.257782122Z",
+    "2026-10-31T02:02:59.225136861Z"
+  ]
+}

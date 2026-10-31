@@ -1,0 +1,2007 @@
+{
+  "source": "https://monitoring.googleapis.com/$discovery/rest?version=v1",
+  "retrieved_on": "2026-10-30",
+  "revision": "20261022",
+  "schemas": {
+    "Aggregation": {
+      "id": "Aggregation",
+      "description": "Describes how to combine multiple time series to provide a different view of the data. Aggregation of time series is done in two steps. First, each time series in the set is aligned to the same time interval boundaries, then the set of time series is optionally reduced in number.Alignment consists of applying the per_series_aligner operation to each time series after its data has been divided into regular alignment_period time intervals. This process takes all of the data points in an alignment period, applies a mathematical transformation such as averaging, minimum, maximum, delta, etc., and converts them into a single data point per period.Reduction is when the aligned and transformed time series can optionally be combined, reducing the number of time series through similar mathematical transformations. Reduction involves applying a cross_series_reducer to all the time series, optionally sorting the time series into subsets with group_by_fields, and applying the reducer to each subset.The raw time series data can contain a huge amount of information from multiple sources. Alignment and reduction transforms this mass of data into a more manageable and representative collection of data, for example \"the 95% latency across the average of all tasks in a cluster\". This representative data can be more easily graphed and comprehended, and the individual time series data is still available for later drilldown. For more details, see Filtering and aggregation (https://cloud.google.com/monitoring/api/v3/aggregation).",
+      "properties": {
+        "alignmentPeriod": {
+          "description": "The alignment_period specifies a time interval, in seconds, that is used to divide the data in all the time series into consistent blocks of time. This will be done before the per-series aligner can be applied to the data.The value must be at least 60 seconds. If a per-series aligner other than ALIGN_NONE is specified, this field is required or an error is returned. If no per-series aligner is specified, or the aligner ALIGN_NONE is specified, then this field is ignored.The maximum value of the alignment_period is 2 years, or 104 weeks.",
+          "type": "string",
+          "format": "google-duration"
+        },
+        "crossSeriesReducer": {
+          "type": "string",
+          "enum": [
+            "REDUCE_NONE",
+            "REDUCE_MEAN",
+            "REDUCE_MIN",
+            "REDUCE_MAX",
+            "REDUCE_SUM",
+            "REDUCE_STDDEV",
+            "REDUCE_COUNT",
+            "REDUCE_COUNT_TRUE",
+            "REDUCE_COUNT_FALSE",
+            "REDUCE_FRACTION_TRUE",
+            "REDUCE_PERCENTILE_99",
+            "REDUCE_PERCENTILE_95",
+            "REDUCE_PERCENTILE_50",
+            "REDUCE_PERCENTILE_05"
+          ],
+          "enumDescriptions": [
+            "No cross-time series reduction. The output of the Aligner is returned.",
+            "Reduce by computing the mean value across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics with numeric or distribution values. The value_type of the output is DOUBLE.",
+            "Reduce by computing the minimum value across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics with numeric values. The value_type of the output is the same as the value_type of the input.",
+            "Reduce by computing the maximum value across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics with numeric values. The value_type of the output is the same as the value_type of the input.",
+            "Reduce by computing the sum across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics with numeric and distribution values. The value_type of the output is the same as the value_type of the input.",
+            "Reduce by computing the standard deviation across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics with numeric or distribution values. The value_type of the output is DOUBLE.",
+            "Reduce by computing the number of data points across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics of numeric, Boolean, distribution, and string value_type. The value_type of the output is INT64.",
+            "Reduce by computing the number of True-valued data points across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics of Boolean value_type. The value_type of the output is INT64.",
+            "Reduce by computing the number of False-valued data points across time series for each alignment period. This reducer is valid for DELTA and GAUGE metrics of Boolean value_type. The value_type of the output is INT64.",
+            "Reduce by computing the ratio of the number of True-valued data points to the total number of data points for each alignment period. This reducer is valid for DELTA and GAUGE metrics of Boolean value_type. The output value is in the range 0.0, 1.0 and has value_type DOUBLE.",
+            "Reduce by computing the 99th percentile (https://en.wikipedia.org/wiki/Percentile) of data points across time series for each alignment period. This reducer is valid for GAUGE and DELTA metrics of numeric and distribution type. The value of the output is DOUBLE.",
+            "Reduce by computing the 95th percentile (https://en.wikipedia.org/wiki/Percentile) of data points across time series for each alignment period. This reducer is valid for GAUGE and DELTA metrics of numeric and distribution type. The value of the output is DOUBLE.",
+            "Reduce by computing the 50th percentile (https://en.wikipedia.org/wiki/Percentile) of data points across time series for each alignment period. This reducer is valid for GAUGE and DELTA metrics of numeric and distribution type. The value of the output is DOUBLE.",
+            "Reduce by computing the 5th percentile (https://en.wikipedia.org/wiki/Percentile) of data points across time series for each alignment period. This reducer is valid for GAUGE and DELTA metrics of numeric and distribution type. The value of the output is DOUBLE."
+          ],
+          "description": "The reduction operation to be used to combine time series into a single time series, where the value of each data point in the resulting series is a function of all the already aligned values in the input time series.Not all reducer operations can be applied to all time series. The valid choices depend on the metric_kind and the value_type of the original time series. Reduction can yield a time series with a different metric_kind or value_type than the input time series.Time series data must first be aligned (see per_series_aligner) in order to perform cross-time series reduction. If cross_series_reducer is specified, then per_series_aligner must be specified, and must not be ALIGN_NONE. An alignment_period must also be specified; otherwise, an error is returned."
+        },
+        "groupByFields": {
+          "items": {
+            "type": "string"
+          },
+          "description": "The set of fields to preserve when cross_series_reducer is specified. The group_by_fields determine how the time series are partitioned into subsets prior to applying the aggregation operation. Each subset contains time series that have the same value for each of the grouping fields. Each individual time series is a member of exactly one subset. The cross_series_reducer is applied to each subset of time series. It is not possible to reduce across different resource types, so this field implicitly contains resource.type. Fields not specified in group_by_fields are aggregated away. If group_by_fields is not specified and all the time series have the same resource type, then the time series are aggregated into a single output time series. If cross_series_reducer is not defined, this field is ignored.",
+          "type": "array"
+        },
+        "perSeriesAligner": {
+          "type": "string",
+          "enum": [
+            "ALIGN_NONE",
+            "ALIGN_DELTA",
+            "ALIGN_RATE",
+            "ALIGN_INTERPOLATE",
+            "ALIGN_NEXT_OLDER",
+            "ALIGN_MIN",
+            "ALIGN_MAX",
+            "ALIGN_MEAN",
+            "ALIGN_COUNT",
+            "ALIGN_SUM",
+            "ALIGN_STDDEV",
+            "ALIGN_COUNT_TRUE",
+            "ALIGN_COUNT_FALSE",
+            "ALIGN_FRACTION_TRUE",
+            "ALIGN_PERCENTILE_99",
+            "ALIGN_PERCENTILE_95",
+            "ALIGN_PERCENTILE_50",
+            "ALIGN_PERCENTILE_05",
+            "ALIGN_PERCENT_CHANGE"
+          ],
+          "description": "An Aligner describes how to bring the data points in a single time series into temporal alignment. Except for ALIGN_NONE, all alignments cause all the data points in an alignment_period to be mathematically grouped together, resulting in a single data point for each alignment_period with end timestamp at the end of the period.Not all alignment operations may be applied to all time series. The valid choices depend on the metric_kind and value_type of the original time series. Alignment can change the metric_kind or the value_type of the time series.Time series data must be aligned in order to perform cross-time series reduction. If cross_series_reducer is specified, then per_series_aligner must be specified and not equal to ALIGN_NONE and alignment_period must be specified; otherwise, an error is returned.",
+          "enumDescriptions": [
+            "No alignment. Raw data is returned. Not valid if cross-series reduction is requested. The value_type of the result is the same as the value_type of the input.",
+            "Align and convert to DELTA. The output is delta = y1 - y0.This alignment is valid for CUMULATIVE and DELTA metrics. If the selected alignment period results in periods with no data, then the aligned value for such a period is created by interpolation. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align and convert to a rate. The result is computed as rate = (y1 - y0)/(t1 - t0), or \"delta over time\". Think of this aligner as providing the slope of the line that passes through the value at the start and at the end of the alignment_period.This aligner is valid for CUMULATIVE and DELTA metrics with numeric values. If the selected alignment period results in periods with no data, then the aligned value for such a period is created by interpolation. The output is a GAUGE metric with value_type DOUBLE.If, by \"rate\", you mean \"percentage change\", see the ALIGN_PERCENT_CHANGE aligner instead.",
+            "Align by interpolating between adjacent points around the alignment period boundary. This aligner is valid for GAUGE metrics with numeric values. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align by moving the most recent data point before the end of the alignment period to the boundary at the end of the alignment period. This aligner is valid for GAUGE metrics. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align the time series by returning the minimum value in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric values. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align the time series by returning the maximum value in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric values. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align the time series by returning the mean value in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric values. The value_type of the aligned result is DOUBLE.",
+            "Align the time series by returning the number of values in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric or Boolean values. The value_type of the aligned result is INT64.",
+            "Align the time series by returning the sum of the values in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric and distribution values. The value_type of the aligned result is the same as the value_type of the input.",
+            "Align the time series by returning the standard deviation of the values in each alignment period. This aligner is valid for GAUGE and DELTA metrics with numeric values. The value_type of the output is DOUBLE.",
+            "Align the time series by returning the number of True values in each alignment period. This aligner is valid for GAUGE metrics with Boolean values. The value_type of the output is INT64.",
+            "Align the time series by returning the number of False values in each alignment period. This aligner is valid for GAUGE metrics with Boolean values. The value_type of the output is INT64.",
+            "Align the time series by returning the ratio of the number of True values to the total number of values in each alignment period. This aligner is valid for GAUGE metrics with Boolean values. The output value is in the range 0.0, 1.0 and has value_type DOUBLE.",
+            "Align the time series by using percentile aggregation (https://en.wikipedia.org/wiki/Percentile). The resulting data point in each alignment period is the 99th percentile of all data points in the period. This aligner is valid for GAUGE and DELTA metrics with distribution values. The output is a GAUGE metric with value_type DOUBLE.",
+            "Align the time series by using percentile aggregation (https://en.wikipedia.org/wiki/Percentile). The resulting data point in each alignment period is the 95th percentile of all data points in the period. This aligner is valid for GAUGE and DELTA metrics with distribution values. The output is a GAUGE metric with value_type DOUBLE.",
+            "Align the time series by using percentile aggregation (https://en.wikipedia.org/wiki/Percentile). The resulting data point in each alignment period is the 50th percentile of all data points in the period. This aligner is valid for GAUGE and DELTA metrics with distribution values. The output is a GAUGE metric with value_type DOUBLE.",
+            "Align the time series by using percentile aggregation (https://en.wikipedia.org/wiki/Percentile). The resulting data point in each alignment period is the 5th percentile of all data points in the period. This aligner is valid for GAUGE and DELTA metrics with distribution values. The output is a GAUGE metric with value_type DOUBLE.",
+            "Align and convert to a percentage change. This aligner is valid for GAUGE and DELTA metrics with numeric values. This alignment returns ((current - previous)/previous) * 100, where the value of previous is determined based on the alignment_period.If the values of current and previous are both 0, then the returned value is 0. If only previous is 0, the returned value is infinity.A 10-minute moving mean is computed at each point of the alignment period prior to the above calculation to smooth the metric and prevent false positives from very short-lived spikes. The moving mean is only applicable for data whose values are >= 0. Any values < 0 are treated as a missing datapoint, and are ignored. While DELTA metrics are accepted by this alignment, special care should be taken that the values for the metric will always be positive. The output is a GAUGE metric with value_type DOUBLE."
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "AggregationFunction": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Required. The type of aggregation function, must be one of the following: \"none\" - no function. \"percentile\" - APPROX_QUANTILES() - 1 parameter numeric value \"average\" - AVG() \"count\" - COUNT() \"count-distinct\" - COUNT(DISTINCT) \"count-distinct-approx\" - APPROX_COUNT_DISTINCT() \"max\" - MAX() \"min\" - MIN() \"sum\" - SUM()"
+        },
+        "parameters": {
+          "description": "Optional. Parameters applied to the aggregation function. Only used for functions that require them.",
+          "items": {
+            "$ref": "Parameter"
+          },
+          "type": "array"
+        }
+      },
+      "description": "Preview: An identifier for an aggregation function. Aggregation functions are SQL functions that group or transform data from multiple points to a single point. This is a preview feature and may be subject to change before final release.",
+      "type": "object",
+      "id": "AggregationFunction"
+    },
+    "AlertChart": {
+      "id": "AlertChart",
+      "description": "A chart that displays alert policy data.",
+      "properties": {
+        "name": {
+          "description": "Required. The resource name of the alert policy. The format is: projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID] ",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Axis": {
+      "description": "A chart axis.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "description": "The label of the axis.",
+          "type": "string"
+        },
+        "scale": {
+          "type": "string",
+          "enum": [
+            "SCALE_UNSPECIFIED",
+            "LINEAR",
+            "LOG10"
+          ],
+          "description": "The axis scale. By default, a linear scale is used.",
+          "enumDescriptions": [
+            "Scale is unspecified. The view will default to LINEAR.",
+            "Linear scale.",
+            "Logarithmic scale (base 10)."
+          ]
+        }
+      },
+      "id": "Axis"
+    },
+    "Breakdown": {
+      "properties": {
+        "sortOrder": {
+          "description": "Required. The sort order is applied to the values of the breakdown column.",
+          "type": "string",
+          "enum": [
+            "SORT_ORDER_UNSPECIFIED",
+            "SORT_ORDER_NONE",
+            "SORT_ORDER_ASCENDING",
+            "SORT_ORDER_DESCENDING"
+          ],
+          "enumDescriptions": [
+            "An unspecified sort order. This option is invalid when sorting is required.",
+            "No sorting is applied.",
+            "The lowest-valued entries are selected first.",
+            "The highest-valued entries are selected first."
+          ]
+        },
+        "aggregationFunction": {
+          "description": "Required. The Aggregation function is applied across all data in each breakdown created.",
+          "$ref": "AggregationFunction"
+        },
+        "limit": {
+          "description": "Required. A limit to the number of breakdowns. If set to zero then all possible breakdowns are applied. The list of breakdowns is dependent on the value of the sort_order field.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "column": {
+          "type": "string",
+          "description": "Required. The name of the column in the dataset containing the breakdown values."
+        }
+      },
+      "type": "object",
+      "id": "Breakdown",
+      "description": "Preview: A breakdown is an aggregation applied to the measures over a specified column. A breakdown can result in multiple series across a category for the provided measure. This is a preview feature and may be subject to change before final release."
+    },
+    "ChartOptions": {
+      "type": "object",
+      "id": "ChartOptions",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "MODE_UNSPECIFIED",
+            "COLOR",
+            "X_RAY",
+            "STATS"
+          ],
+          "description": "The chart mode.",
+          "enumDescriptions": [
+            "Mode is unspecified. The view will default to COLOR.",
+            "The chart distinguishes data series using different color. Line colors may get reused when there are many lines in the chart.",
+            "The chart uses the Stackdriver x-ray mode, in which each data set is plotted using the same semi-transparent color.",
+            "The chart displays statistics such as average, median, 95th percentile, and more."
+          ]
+        },
+        "displayHorizontal": {
+          "description": "Preview: Configures whether the charted values are shown on the horizontal or vertical axis. By default, values are represented the vertical axis. This is a preview feature and may be subject to change before final release.",
+          "type": "boolean"
+        }
+      },
+      "description": "Options to control visual rendering of a chart."
+    },
+    "CollapsibleGroup": {
+      "id": "CollapsibleGroup",
+      "description": "A widget that groups the other widgets. All widgets that are within the area spanned by the grouping widget are considered member widgets.",
+      "properties": {
+        "collapsed": {
+          "description": "The collapsed state of the widget on first page load.",
+          "type": "boolean"
+        }
+      },
+      "type": "object"
+    },
+    "Column": {
+      "description": "Defines the layout properties and content for a column.",
+      "type": "object",
+      "properties": {
+        "widgets": {
+          "type": "array",
+          "description": "The display widgets arranged vertically in this column.",
+          "items": {
+            "$ref": "Widget"
+          }
+        },
+        "weight": {
+          "description": "The relative weight of this column. The column weight is used to adjust the width of columns on the screen (relative to peers). Greater the weight, greater the width of the column on the screen. If omitted, a value of 1 is used while rendering.",
+          "type": "string",
+          "format": "int64"
+        }
+      },
+      "id": "Column"
+    },
+    "ColumnLayout": {
+      "id": "ColumnLayout",
+      "properties": {
+        "columns": {
+          "description": "The columns of content to display.",
+          "type": "array",
+          "items": {
+            "$ref": "Column"
+          }
+        }
+      },
+      "description": "A simplified layout that divides the available space into vertical columns and arranges a set of widgets vertically in each column.",
+      "type": "object"
+    },
+    "ColumnSettings": {
+      "properties": {
+        "column": {
+          "description": "Required. The id of the column.",
+          "type": "string"
+        },
+        "alignment": {
+          "description": "Optional. Whether the column should be left / middle / right aligned",
+          "type": "string",
+          "enumDescriptions": [
+            "No horizontal alignment specified; fall back to the default behavior. Label values are left aligned. Numeric values are right aligned.",
+            "Left-align",
+            "Center-align",
+            "Right-align"
+          ],
+          "enum": [
+            "CELL_ALIGNMENT_UNSPECIFIED",
+            "LEFT",
+            "CENTER",
+            "RIGHT"
+          ]
+        },
+        "thresholds": {
+          "type": "array",
+          "items": {
+            "$ref": "Threshold"
+          },
+          "description": "Optional. The thresholds used to determine how the table cell should be rendered given the time series' current value."
+        },
+        "visible": {
+          "type": "boolean",
+          "description": "Required. Whether the column should be visible on page load."
+        },
+        "displayName": {
+          "description": "Optional. Display name of the column",
+          "type": "string"
+        }
+      },
+      "description": "The persistent settings for a table's columns.",
+      "type": "object",
+      "id": "ColumnSettings"
+    },
+    "ColumnSortingOptions": {
+      "id": "ColumnSortingOptions",
+      "properties": {
+        "column": {
+          "type": "string",
+          "description": "Optional. Column name to sort data by"
+        },
+        "direction": {
+          "description": "Optional. A sorting direction that determines ascending or descending order. This is a legacy field kept for backwards compatibility with table.",
+          "type": "string",
+          "enum": [
+            "SORT_ORDER_UNSPECIFIED",
+            "SORT_ORDER_NONE",
+            "SORT_ORDER_ASCENDING",
+            "SORT_ORDER_DESCENDING"
+          ],
+          "enumDescriptions": [
+            "An unspecified sort order. This option is invalid when sorting is required.",
+            "No sorting is applied.",
+            "The lowest-valued entries are selected first.",
+            "The highest-valued entries are selected first."
+          ]
+        }
+      },
+      "type": "object",
+      "description": "Data structure to storing column's sort strategy"
+    },
+    "Dashboard": {
+      "type": "object",
+      "id": "Dashboard",
+      "properties": {
+        "labels": {
+          "description": "Labels applied to the dashboard",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        "dashboardFilters": {
+          "type": "array",
+          "items": {
+            "$ref": "DashboardFilter"
+          },
+          "description": "Filters to reduce the amount of data charted based on the filter criteria."
+        },
+        "displayName": {
+          "description": "Required. The mutable, human-readable name.",
+          "type": "string"
+        },
+        "rowLayout": {
+          "description": "The content is divided into equally spaced rows and the widgets are arranged horizontally.",
+          "$ref": "RowLayout"
+        },
+        "annotations": {
+          "$ref": "DashboardAnnotations",
+          "description": "Configuration for event annotations to display on this dashboard."
+        },
+        "mosaicLayout": {
+          "description": "The content is arranged as a grid of tiles, with each content widget occupying one or more grid blocks.",
+          "$ref": "MosaicLayout"
+        },
+        "etag": {
+          "description": "etag is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. An etag is returned in the response to GetDashboard, and users are expected to put that etag in the request to UpdateDashboard to ensure that their change will be applied to the same version of the Dashboard configuration. The field should not be passed during dashboard creation.",
+          "type": "string"
+        },
+        "gridLayout": {
+          "description": "Content is arranged with a basic layout that re-flows a simple list of informational elements like widgets or tiles.",
+          "$ref": "GridLayout"
+        },
+        "name": {
+          "type": "string",
+          "description": "Identifier. The resource name of the dashboard."
+        },
+        "columnLayout": {
+          "$ref": "ColumnLayout",
+          "description": "The content is divided into equally spaced columns and the widgets are arranged vertically."
+        }
+      },
+      "description": "A Google Stackdriver dashboard. Dashboards define the content and layout of pages in the Stackdriver web application."
+    },
+    "DashboardAnnotations": {
+      "description": "Dashboard-level configuration for annotations",
+      "id": "DashboardAnnotations",
+      "properties": {
+        "eventAnnotations": {
+          "type": "array",
+          "items": {
+            "$ref": "EventAnnotation"
+          },
+          "description": "List of annotation configurations for this dashboard. Each entry specifies one event type."
+        },
+        "defaultResourceNames": {
+          "description": "Dashboard level defaults for names of logging resources to search for events. Currently only projects are supported. Each individual EventAnnotation may have its own overrides. If both this field and the per annotation field is empty, then the scoping project is used. Limit: 50 projects. For example: \u201cprojects/some-project-id\u201d ",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "DashboardFilter": {
+      "type": "object",
+      "properties": {
+        "templateVariable": {
+          "description": "The placeholder text that can be referenced in a filter string or MQL query. If omitted, the dashboard filter will be applied to all relevant widgets in the dashboard.",
+          "type": "string"
+        },
+        "stringArrayValue": {
+          "$ref": "StringArray",
+          "description": "An array of variable-length string values. If this field is set, value_type must be set to STRING_ARRAY or VALUE_TYPE_UNSPECIFIED"
+        },
+        "stringArray": {
+          "$ref": "StringArray",
+          "description": "A list of possible string values for the filter"
+        },
+        "filterType": {
+          "type": "string",
+          "enum": [
+            "FILTER_TYPE_UNSPECIFIED",
+            "RESOURCE_LABEL",
+            "METRIC_LABEL",
+            "USER_METADATA_LABEL",
+            "SYSTEM_METADATA_LABEL",
+            "GROUP",
+            "VALUE_ONLY"
+          ],
+          "enumDescriptions": [
+            "Filter type is unspecified. This is not valid in a well-formed request.",
+            "Filter on a resource label value",
+            "Filter on a metrics label value",
+            "Filter on a user metadata label value",
+            "Filter on a system metadata label value",
+            "Filter on a group id",
+            "Filter that only contains a value. The label_key field must be unset for filters of this type."
+          ],
+          "description": "The specified filter type"
+        },
+        "timeSeriesQuery": {
+          "description": "A query to run to fetch possible values for the filter. Only OpsAnalyticsQueries are supported",
+          "$ref": "TimeSeriesQuery"
+        },
+        "stringValue": {
+          "type": "string",
+          "description": "A variable-length string value. If this field is set, value_type must be set to STRING or VALUE_TYPE_UNSPECIFIED"
+        },
+        "labelKey": {
+          "description": "Optional. The key for the label. This must be omitted if the filter_type is VALUE_ONLY but is required otherwise.",
+          "type": "string"
+        },
+        "valueType": {
+          "enumDescriptions": [
+            "Value type is unspecified",
+            "String type",
+            "String array type"
+          ],
+          "description": "The type of the filter value. If value_type is not provided, it will be inferred from the default_value. If neither value_type nor default_value is provided, value_type will be set to STRING by default.",
+          "type": "string",
+          "enum": [
+            "VALUE_TYPE_UNSPECIFIED",
+            "STRING",
+            "STRING_ARRAY"
+          ]
+        }
+      },
+      "id": "DashboardFilter",
+      "description": "A filter to reduce the amount of data charted in relevant widgets."
+    },
+    "DataSet": {
+      "properties": {
+        "legendTemplate": {
+          "description": "A template string for naming TimeSeries in the resulting data set. This should be a string with interpolations of the form ${label_name}, which will resolve to the label's value.",
+          "type": "string"
+        },
+        "targetAxis": {
+          "enumDescriptions": [
+            "The target axis was not specified. Defaults to Y1.",
+            "The y_axis (the right axis of chart).",
+            "The y2_axis (the left axis of chart)."
+          ],
+          "type": "string",
+          "enum": [
+            "TARGET_AXIS_UNSPECIFIED",
+            "Y1",
+            "Y2"
+          ],
+          "description": "Optional. The target axis to use for plotting the metric."
+        },
+        "timeSeriesQuery": {
+          "$ref": "TimeSeriesQuery",
+          "description": "Required. Fields for querying time series data from the Stackdriver metrics API."
+        },
+        "sort": {
+          "items": {
+            "$ref": "ColumnSortingOptions"
+          },
+          "type": "array",
+          "description": "Optional. A collection of sort options, affects the order of the data and legend."
+        },
+        "measures": {
+          "items": {
+            "$ref": "Measure"
+          },
+          "type": "array",
+          "description": "Optional. A collection of measures."
+        },
+        "minAlignmentPeriod": {
+          "format": "google-duration",
+          "description": "Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals.For PromQL queries, this field is used to set the minimum interval for the query step, controlling data granularity. Larger values can improve performance on long time ranges. See Querying Basics and Range Queries for more details on the PromQL step.",
+          "type": "string"
+        },
+        "dimensions": {
+          "description": "Optional. A collection of dimension columns.",
+          "items": {
+            "$ref": "Dimension"
+          },
+          "type": "array"
+        },
+        "plotType": {
+          "type": "string",
+          "enum": [
+            "PLOT_TYPE_UNSPECIFIED",
+            "LINE",
+            "STACKED_AREA",
+            "STACKED_BAR",
+            "HEATMAP"
+          ],
+          "description": "How this data should be plotted on the chart.",
+          "enumDescriptions": [
+            "Plot type is unspecified. The view will default to LINE.",
+            "The data is plotted as a set of lines (one line per series).",
+            "The data is plotted as a set of filled areas (one area per series), with the areas stacked vertically (the base of each area is the top of its predecessor, and the base of the first area is the x-axis). Since the areas do not overlap, each is filled with a different opaque color.",
+            "The data is plotted as a set of rectangular boxes (one box per series), with the boxes stacked vertically (the base of each box is the top of its predecessor, and the base of the first box is the x-axis). Since the boxes do not overlap, each is filled with a different opaque color.",
+            "The data is plotted as a heatmap. The series being plotted must have a DISTRIBUTION value type. The value of each bucket in the distribution is displayed as a color. This type is not currently available in the Stackdriver Monitoring application."
+          ]
+        },
+        "breakdowns": {
+          "description": "Optional. The collection of breakdowns to be applied to the dataset.",
+          "items": {
+            "$ref": "Breakdown"
+          },
+          "type": "array"
+        }
+      },
+      "id": "DataSet",
+      "description": "Groups a time series query definition with charting options.",
+      "type": "object"
+    },
+    "Dimension": {
+      "id": "Dimension",
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "string",
+          "description": "Required. For widgets that use SQL queries, set the value to the name of the column in the results table whose data is charted. For a histogram that uses a time series query, set the value of this field to metric_value."
+        },
+        "sortOrder": {
+          "description": "The sort order applied to the sort column.",
+          "enumDescriptions": [
+            "An unspecified sort order. This option is invalid when sorting is required.",
+            "No sorting is applied.",
+            "The lowest-valued entries are selected first.",
+            "The highest-valued entries are selected first."
+          ],
+          "type": "string",
+          "enum": [
+            "SORT_ORDER_UNSPECIFIED",
+            "SORT_ORDER_NONE",
+            "SORT_ORDER_ASCENDING",
+            "SORT_ORDER_DESCENDING"
+          ]
+        },
+        "xMin": {
+          "type": "number",
+          "description": "The minimum value for the x-axis.",
+          "format": "double"
+        },
+        "columnType": {
+          "description": "Optional. The type of the dimension column. This is relevant only if one of the bin_size fields is set. If it is empty, the type TIMESTAMP or INT64 will be assumed based on which bin_size field is set. If populated, this should be set to one of the following types: DATE, TIME, DATETIME, TIMESTAMP, BIGNUMERIC, INT64, NUMERIC, FLOAT64.",
+          "type": "string"
+        },
+        "floatBinSize": {
+          "type": "number",
+          "format": "double",
+          "description": "Optional. float_bin_size is used when the column type used for a dimension is a floating point numeric column."
+        },
+        "sortColumn": {
+          "description": "The column name to sort on for binning. This column can be the same column as this dimension or any other column used as a measure in the results. If sort_order is set to NONE, then this value is not used.",
+          "type": "string"
+        },
+        "numericBinSize": {
+          "type": "integer",
+          "description": "numeric_bin_size is used when the column type used for a dimension is numeric or string. If the column field is set to metric_value, then numericBinSize overrides maxBinCount.",
+          "format": "int32"
+        },
+        "maxBinCount": {
+          "format": "int32",
+          "type": "integer",
+          "description": "For widgets that use SQL queries, the limit to the number of bins to generate. When 0 is specified, the maximum count is not enforced. For a histogram that uses a time series query, the exact number of bins to generate. If not specified or the value is 0, then the histogram determines the number of bins to use."
+        },
+        "timeBinSize": {
+          "description": "time_bin_size is used when the data type of the specified dimension is a time type and the bin size is determined by a time duration. If column_type is DATE, this must be a whole value multiple of 1 day. If column_type is TIME, this must be less than or equal to 24 hours.",
+          "format": "google-duration",
+          "type": "string"
+        },
+        "xMax": {
+          "description": "The maximum value for the x-axis.",
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "description": "A chart dimension. Dimensions are a structured label, class, or category for a set of measurements in your data."
+    },
+    "Empty": {
+      "id": "Empty",
+      "properties": {},
+      "description": "A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } ",
+      "type": "object"
+    },
+    "ErrorReportingPanel": {
+      "id": "ErrorReportingPanel",
+      "properties": {
+        "services": {
+          "items": {
+            "type": "string"
+          },
+          "description": "An identifier of the service, such as the name of the executable, job, or Google App Engine service name. This field is expected to have a low number of values that are relatively stable over time, as opposed to version, which can be changed whenever new code is deployed.Contains the service name for error reports extracted from Google App Engine logs or default if the App Engine default service is used.",
+          "type": "array"
+        },
+        "versions": {
+          "items": {
+            "type": "string"
+          },
+          "description": "Represents the source code version that the developer provided, which could represent a version label or a Git SHA-1 hash, for example. For App Engine standard environment, the version is set to the version of the app.",
+          "type": "array"
+        },
+        "projectNames": {
+          "description": "The resource name of the Google Cloud Platform project. Written as projects/{projectID} or projects/{projectNumber}, where {projectID} and {projectNumber} can be found in the Google Cloud console (https://support.google.com/cloud/answer/6158840).Examples: projects/my-project-123, projects/5551234.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "type": "object",
+      "description": "A widget that displays a list of error groups."
+    },
+    "EventAnnotation": {
+      "id": "EventAnnotation",
+      "type": "object",
+      "properties": {
+        "displayName": {
+          "type": "string",
+          "description": "Solely for UI display. Should not be used programmatically."
+        },
+        "enabled": {
+          "description": "Whether or not to show the events on the dashboard by default",
+          "type": "boolean"
+        },
+        "filter": {
+          "description": "string filtering the events - event dependant. Example values: \"resource.labels.pod_name = 'pod-1'\" \"protoPayload.authenticationInfo.principalEmail='user@example.com'\" ",
+          "type": "string"
+        },
+        "eventType": {
+          "enumDescriptions": [
+            "No event type specified.",
+            "Patch/update of GKE workload.",
+            "Crash events for a GKE Pod.",
+            "Scheduling failures for GKE Pods.",
+            "Failure to create a GKE container.",
+            "Create/delete of a GKE cluster.",
+            "Update of a GKE cluster.",
+            "Update of a GKE node pool.",
+            "GKE cluster autoscaler event.",
+            "GKE pod autoscaler event.",
+            "Termination of a virtual machine.",
+            "Guest OS error on a virtual machine.",
+            "Start failure on a virtual machine.",
+            "Update of a managed instance group.",
+            "Autoscaler event for a managed instance group.",
+            "New deployment of a Cloud Run service.",
+            "Failover of a Cloud SQL instance.",
+            "Start/stop of a Cloud SQL instance.",
+            "Storage event for a Cloud SQL instance.",
+            "Failure of a Cloud Monitoring uptime check.",
+            "Alerts from Cloud Alerting",
+            "Incidents from Service Health",
+            "Agent for SAP Backint related events.",
+            "Agent for SAP availability related events.",
+            "Agent for SAP operations related events.",
+            "Interconnect maintenance started event.",
+            "Interconnect maintenance completed event.",
+            "VPN traffic selector narrowing event.",
+            "VPN maintenance event."
+          ],
+          "type": "string",
+          "enum": [
+            "EVENT_TYPE_UNSPECIFIED",
+            "GKE_WORKLOAD_DEPLOYMENT",
+            "GKE_POD_CRASH",
+            "GKE_POD_UNSCHEDULABLE",
+            "GKE_CONTAINER_CREATION_FAILED",
+            "GKE_CLUSTER_CREATE_DELETE",
+            "GKE_CLUSTER_UPDATE",
+            "GKE_NODE_POOL_UPDATE",
+            "GKE_CLUSTER_AUTOSCALER",
+            "GKE_POD_AUTOSCALER",
+            "VM_TERMINATION",
+            "VM_GUEST_OS_ERROR",
+            "VM_START_FAILED",
+            "MIG_UPDATE",
+            "MIG_AUTOSCALER",
+            "CLOUD_RUN_DEPLOYMENT",
+            "CLOUD_SQL_FAILOVER",
+            "CLOUD_SQL_START_STOP",
+            "CLOUD_SQL_STORAGE",
+            "UPTIME_CHECK_FAILURE",
+            "CLOUD_ALERTING_ALERT",
+            "SERVICE_HEALTH_INCIDENT",
+            "SAP_BACKINT",
+            "SAP_AVAILABILITY",
+            "SAP_OPERATIONS",
+            "INTERCONNECT_MAINTENANCE_STARTED",
+            "INTERCONNECT_MAINTENANCE_COMPLETED",
+            "VPN_TRAFFIC_SELECTOR_NARROWING",
+            "VPN_MAINTENANCE"
+          ],
+          "description": "The type of event to display."
+        },
+        "resourceNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Per annotation level override for the names of logging resources to search for events. Currently only projects are supported. If both this field and the per annotation field is empty, it will default to the host project. Limit: 50 projects. For example: \u201cprojects/another-project-id\u201d "
+        }
+      },
+      "description": "Annotation configuration for one event type on a dashboard"
+    },
+    "FilterControl": {
+      "description": "A widget that displays an input field to change the value of a template variable.",
+      "id": "FilterControl",
+      "properties": {
+        "templateVariable": {
+          "description": "Name of the template variable the widget affects.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "GaugeView": {
+      "type": "object",
+      "id": "GaugeView",
+      "description": "A gauge chart shows where the current value sits within a pre-defined range. The upper and lower bounds should define the possible range of values for the scorecard's query (inclusive).",
+      "properties": {
+        "lowerBound": {
+          "description": "The lower bound for this gauge chart. The value of the chart should always be greater than or equal to this.",
+          "type": "number",
+          "format": "double"
+        },
+        "upperBound": {
+          "description": "The upper bound for this gauge chart. The value of the chart should always be less than or equal to this.",
+          "format": "double",
+          "type": "number"
+        }
+      }
+    },
+    "GridLayout": {
+      "id": "GridLayout",
+      "properties": {
+        "columns": {
+          "type": "string",
+          "format": "int64",
+          "description": "The number of columns into which the view's width is divided. If omitted or set to zero, a system default will be used while rendering."
+        },
+        "widgets": {
+          "items": {
+            "$ref": "Widget"
+          },
+          "description": "The informational elements that are arranged into the columns row-first.",
+          "type": "array"
+        }
+      },
+      "description": "A basic layout divides the available space into vertical columns of equal width and arranges a list of widgets using a row-first strategy.",
+      "type": "object"
+    },
+    "IncidentList": {
+      "type": "object",
+      "description": "A widget that displays a list of incidents",
+      "id": "IncidentList",
+      "properties": {
+        "policyNames": {
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional. A list of alert policy names to filter the incident list by. Don't include the project ID prefix in the policy name. For example, use alertPolicies/utilization.",
+          "type": "array"
+        },
+        "monitoredResources": {
+          "items": {
+            "$ref": "MonitoredResource"
+          },
+          "type": "array",
+          "description": "Optional. The monitored resource for which incidents are listed. The resource doesn't need to be fully specified. That is, you can specify the resource type but not the values of the resource labels. The resource type and labels are used for filtering."
+        }
+      }
+    },
+    "Interval": {
+      "type": "object",
+      "description": "Represents a time interval, encoded as a Timestamp start (inclusive) and a Timestamp end (exclusive).The start must be less than or equal to the end. When the start equals the end, the interval is empty (matches no time). When both start and end are unspecified, the interval matches any time.",
+      "properties": {
+        "startTime": {
+          "format": "google-datetime",
+          "description": "Optional. Inclusive start of the interval.If specified, a Timestamp matching this interval will have to be the same or after the start.",
+          "type": "string"
+        },
+        "endTime": {
+          "format": "google-datetime",
+          "type": "string",
+          "description": "Optional. Exclusive end of the interval.If specified, a Timestamp matching this interval will have to be before the end."
+        }
+      },
+      "id": "Interval"
+    },
+    "LogsPanel": {
+      "properties": {
+        "resourceNames": {
+          "description": "The names of logging resources to collect logs for. Currently projects and storage views are supported. If empty, the widget will default to the host project.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "filter": {
+          "description": "A filter that chooses which log entries to return. See Advanced Logs Queries (https://cloud.google.com/logging/docs/view/advanced-queries). Only log entries that match the filter are returned. An empty filter matches all log entries.",
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "description": "A widget that displays a stream of log.",
+      "id": "LogsPanel"
+    },
+    "Measure": {
+      "description": "A chart measure. Measures represent a measured property in your chart data such as rainfall in inches, number of units sold, revenue gained, etc.",
+      "type": "object",
+      "id": "Measure",
+      "properties": {
+        "column": {
+          "type": "string",
+          "description": "Required. The column name within in the dataset used for the measure."
+        },
+        "aggregationFunction": {
+          "$ref": "AggregationFunction",
+          "description": "Required. The aggregation function applied to the input column. This must not be set to \"none\" unless binning is disabled on the dimension. The aggregation function is used to group points on the dimension bins."
+        }
+      }
+    },
+    "MonitoredResource": {
+      "id": "MonitoredResource",
+      "description": "An object representing a resource that can be used for monitoring, logging, billing, or other purposes. Examples include virtual machine instances, databases, and storage devices such as disks. The type field identifies a MonitoredResourceDescriptor object that describes the resource's schema. Information in the labels field identifies the actual resource and its attributes according to the schema. For example, a particular Compute Engine VM instance could be represented by the following object, because the MonitoredResourceDescriptor for \"gce_instance\" has labels \"project_id\", \"instance_id\" and \"zone\": { \"type\": \"gce_instance\", \"labels\": { \"project_id\": \"my-project\", \"instance_id\": \"12345678901234\", \"zone\": \"us-central1-a\" }} ",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Required. The monitored resource type. This field must match the type field of a MonitoredResourceDescriptor object. For example, the type of a Compute Engine VM instance is gce_instance. For a list of types, see Monitoring resource types (https://cloud.google.com/monitoring/api/resources) and Logging resource types (https://cloud.google.com/logging/docs/api/v2/resource-list)."
+        },
+        "labels": {
+          "description": "Required. Values for all of the labels listed in the associated monitored resource descriptor. For example, Compute Engine VM instances use the labels \"project_id\", \"instance_id\", and \"zone\".",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      },
+      "type": "object"
+    },
+    "MosaicLayout": {
+      "type": "object",
+      "description": "A mosaic layout divides the available space into a grid of blocks, and overlays the grid with tiles. Unlike GridLayout, tiles may span multiple grid blocks and can be placed at arbitrary locations in the grid.",
+      "id": "MosaicLayout",
+      "properties": {
+        "tiles": {
+          "description": "The tiles to display.",
+          "type": "array",
+          "items": {
+            "$ref": "Tile"
+          }
+        },
+        "columns": {
+          "type": "integer",
+          "description": "The number of columns in the mosaic grid. The number of columns must be between 1 and 48, inclusive.",
+          "format": "int32"
+        }
+      }
+    },
+    "OpsAnalyticsQuery": {
+      "type": "object",
+      "description": "Preview: A query that produces an aggregated response and supporting data. This is a preview feature and may be subject to change before final release.",
+      "id": "OpsAnalyticsQuery",
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "A SQL query to fetch time series, category series, or numeric series data."
+        }
+      }
+    },
+    "Parameter": {
+      "id": "Parameter",
+      "description": "Preview: Parameter value applied to the aggregation function. This is a preview feature and may be subject to change before final release.",
+      "properties": {
+        "doubleValue": {
+          "format": "double",
+          "description": "A floating-point parameter value.",
+          "type": "number"
+        },
+        "intValue": {
+          "format": "int64",
+          "description": "An integer parameter value.",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "PickTimeSeriesFilter": {
+      "description": "Describes a ranking-based time series filter. Each input time series is ranked with an aligner. The filter will allow up to num_time_series time series to pass through it, selecting them based on the relative ranking.For example, if ranking_method is METHOD_MEAN,direction is BOTTOM, and num_time_series is 3, then the 3 times series with the lowest mean values will pass through the filter.",
+      "type": "object",
+      "id": "PickTimeSeriesFilter",
+      "properties": {
+        "numTimeSeries": {
+          "description": "How many time series to allow to pass through the filter.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "interval": {
+          "$ref": "Interval",
+          "description": "Select the top N streams/time series within this time interval"
+        },
+        "rankingMethod": {
+          "description": "ranking_method is applied to each time series independently to produce the value which will be used to compare the time series to other time series.",
+          "type": "string",
+          "enum": [
+            "METHOD_UNSPECIFIED",
+            "METHOD_MEAN",
+            "METHOD_MAX",
+            "METHOD_MIN",
+            "METHOD_SUM",
+            "METHOD_LATEST"
+          ],
+          "enumDescriptions": [
+            "Not allowed. You must specify a different Method if you specify a PickTimeSeriesFilter.",
+            "Select the mean of all values.",
+            "Select the maximum value.",
+            "Select the minimum value.",
+            "Compute the sum of all values.",
+            "Select the most recent value."
+          ]
+        },
+        "direction": {
+          "description": "How to use the ranking to select time series that pass through the filter.",
+          "enumDescriptions": [
+            "Not allowed. You must specify a different Direction if you specify a PickTimeSeriesFilter.",
+            "Pass the highest num_time_series ranking inputs.",
+            "Pass the lowest num_time_series ranking inputs."
+          ],
+          "type": "string",
+          "enum": [
+            "DIRECTION_UNSPECIFIED",
+            "TOP",
+            "BOTTOM"
+          ]
+        }
+      }
+    },
+    "PieChart": {
+      "type": "object",
+      "id": "PieChart",
+      "properties": {
+        "showLabels": {
+          "description": "Optional. Indicates whether or not the pie chart should show slices' labels",
+          "type": "boolean"
+        },
+        "dataSets": {
+          "type": "array",
+          "description": "Required. The queries for the chart's data.",
+          "items": {
+            "$ref": "PieChartDataSet"
+          }
+        },
+        "chartType": {
+          "enumDescriptions": [
+            "The zero value. No type specified. Do not use.",
+            "A Pie type PieChart.",
+            "Similar to PIE, but the DONUT type PieChart has a hole in the middle."
+          ],
+          "description": "Required. Indicates the visualization type for the PieChart.",
+          "type": "string",
+          "enum": [
+            "PIE_CHART_TYPE_UNSPECIFIED",
+            "PIE",
+            "DONUT"
+          ]
+        }
+      },
+      "description": "A widget that displays timeseries data as a pie or a donut."
+    },
+    "PieChartDataSet": {
+      "id": "PieChartDataSet",
+      "type": "object",
+      "description": "Groups a time series query definition.",
+      "properties": {
+        "timeSeriesQuery": {
+          "description": "Required. The query for the PieChart. See, google.monitoring.dashboard.v1.TimeSeriesQuery.",
+          "$ref": "TimeSeriesQuery"
+        },
+        "measures": {
+          "type": "array",
+          "description": "A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc.",
+          "items": {
+            "$ref": "Measure"
+          }
+        },
+        "minAlignmentPeriod": {
+          "type": "string",
+          "format": "google-duration",
+          "description": "Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals."
+        },
+        "dimensions": {
+          "items": {
+            "$ref": "Dimension"
+          },
+          "description": "A dimension is a structured label, class, or category for a set of measurements in your data.",
+          "type": "array"
+        },
+        "sliceNameTemplate": {
+          "type": "string",
+          "description": "Optional. A template for the name of the slice. This name will be displayed in the legend and the tooltip of the pie chart. It replaces the auto-generated names for the slices. For example, if the template is set to ${resource.labels.zone}, the zone's value will be used for the name instead of the default name."
+        }
+      }
+    },
+    "RatioPart": {
+      "properties": {
+        "filter": {
+          "description": "Required. The monitoring filter (https://cloud.google.com/monitoring/api/v3/filters) that identifies the metric types, resources, and projects to query.",
+          "type": "string"
+        },
+        "aggregation": {
+          "description": "By default, the raw time series data is returned. Use this field to combine multiple time series for different views of the data.",
+          "$ref": "Aggregation"
+        }
+      },
+      "description": "Describes a query to build the numerator or denominator of a TimeSeriesFilterRatio.",
+      "type": "object",
+      "id": "RatioPart"
+    },
+    "Row": {
+      "type": "object",
+      "properties": {
+        "weight": {
+          "format": "int64",
+          "description": "The relative weight of this row. The row weight is used to adjust the height of rows on the screen (relative to peers). Greater the weight, greater the height of the row on the screen. If omitted, a value of 1 is used while rendering.",
+          "type": "string"
+        },
+        "widgets": {
+          "description": "The display widgets arranged horizontally in this row.",
+          "type": "array",
+          "items": {
+            "$ref": "Widget"
+          }
+        }
+      },
+      "id": "Row",
+      "description": "Defines the layout properties and content for a row."
+    },
+    "RowLayout": {
+      "description": "A simplified layout that divides the available space into rows and arranges a set of widgets horizontally in each row.",
+      "properties": {
+        "rows": {
+          "items": {
+            "$ref": "Row"
+          },
+          "description": "The rows of content to display.",
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "id": "RowLayout"
+    },
+    "Scorecard": {
+      "properties": {
+        "thresholds": {
+          "items": {
+            "$ref": "Threshold"
+          },
+          "description": "The thresholds used to determine the state of the scorecard given the time series' current value. For an actual value x, the scorecard is in a danger state if x is less than or equal to a danger threshold that triggers below, or greater than or equal to a danger threshold that triggers above. Similarly, if x is above/below a warning threshold that triggers above/below, then the scorecard is in a warning state - unless x also puts it in a danger state. (Danger trumps warning.)As an example, consider a scorecard with the following four thresholds: { value: 90, category: 'DANGER', trigger: 'ABOVE', }, { value: 70, category: 'WARNING', trigger: 'ABOVE', }, { value: 10, category: 'DANGER', trigger: 'BELOW', }, { value: 20, category: 'WARNING', trigger: 'BELOW', } Then: values less than or equal to 10 would put the scorecard in a DANGER state, values greater than 10 but less than or equal to 20 a WARNING state, values strictly between 20 and 70 an OK state, values greater than or equal to 70 but less than 90 a WARNING state, and values greater than or equal to 90 a DANGER state.",
+          "type": "array"
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "$ref": "Dimension"
+          },
+          "description": "Optional. A dimension is a structured label, class, or category for a set of measurements in your data."
+        },
+        "timeSeriesQuery": {
+          "description": "Required. Fields for querying time series data from the Stackdriver metrics API.",
+          "$ref": "TimeSeriesQuery"
+        },
+        "gaugeView": {
+          "description": "Will cause the scorecard to show a gauge chart.",
+          "$ref": "GaugeView"
+        },
+        "sparkChartView": {
+          "description": "Will cause the scorecard to show a spark chart.",
+          "$ref": "SparkChartView"
+        },
+        "breakdowns": {
+          "description": "Optional. The collection of breakdowns to be applied to the dataset. A breakdown is a way to slice the data. For example, you can break down the data by region.",
+          "items": {
+            "$ref": "Breakdown"
+          },
+          "type": "array"
+        },
+        "blankView": {
+          "description": "Will cause the Scorecard to show only the value, with no indicator to its value relative to its thresholds.",
+          "$ref": "Empty"
+        },
+        "measures": {
+          "items": {
+            "$ref": "Measure"
+          },
+          "description": "Optional. A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc.",
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "id": "Scorecard",
+      "description": "A widget showing the latest value of a metric, and how this value relates to one or more thresholds."
+    },
+    "SectionHeader": {
+      "properties": {
+        "subtitle": {
+          "type": "string",
+          "description": "The subtitle of the section"
+        },
+        "dividerBelow": {
+          "description": "Whether to insert a divider below the section in the table of contents",
+          "type": "boolean"
+        }
+      },
+      "type": "object",
+      "description": "A widget that defines a new section header. Sections populate a table of contents and allow easier navigation of long-form content.",
+      "id": "SectionHeader"
+    },
+    "SingleViewGroup": {
+      "type": "object",
+      "description": "A widget that groups the other widgets by using a dropdown menu. All widgets that are within the area spanned by the grouping widget are considered member widgets.",
+      "id": "SingleViewGroup",
+      "properties": {
+        "displayType": {
+          "type": "string",
+          "enum": [
+            "DISPLAY_TYPE_UNSPECIFIED",
+            "DROPDOWN",
+            "TAB"
+          ],
+          "enumDescriptions": [
+            "Display type is not specified, defaults to DROPDOWN.",
+            "Renders the widget selector as a dropdown.",
+            "Renders the widget selector as a tab list."
+          ],
+          "description": "Optional. Determines how the widget selector will be displayed."
+        }
+      }
+    },
+    "SpanAttributeFilter": {
+      "type": "object",
+      "description": "Span attribute key and list of values to be used for filtering.",
+      "properties": {
+        "key": {
+          "type": "string",
+          "description": "Key of the attribute"
+        },
+        "value": {
+          "description": "List of attribute values for given key. Multiple values will be OR'd together.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "id": "SpanAttributeFilter"
+    },
+    "SpanFilters": {
+      "id": "SpanFilters",
+      "properties": {
+        "kinds": {
+          "description": "Optional. Filtering for spans containing one of the kinds in the list. Multiple values will be OR'd together.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "applicationIds": {
+          "description": "Optional. Filtering for spans containing one of the Apphub Application IDs in the list. Multiple values will be OR'd together.",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "isRootSpan": {
+          "type": "boolean",
+          "description": "Optional. Filters for root spans only if set to true. A root span is a span without a defined parent span ID."
+        },
+        "apphubWorkloads": {
+          "type": "array",
+          "description": "Optional. Filtering for spans containing one of the Apphub workload IDs in the list. Multiple values will be OR'd together. Example: \"workload-id1\", \"workload-id2\"",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Filtering for spans containing one of the statuses in the list. Multiple values will be OR'd together."
+        },
+        "services": {
+          "description": "Optional. Filtering for spans containing one of the services in the list. Multiple values will be OR'd together.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "description": "Optional. List of span attribute filters. Each SpanAttributeFilter key must be unique. Multiple attribute filters will be AND'd together.",
+          "items": {
+            "$ref": "SpanAttributeFilter"
+          }
+        },
+        "minDuration": {
+          "format": "google-duration",
+          "description": "Optional. Filtering for spans with a minimum duration.",
+          "type": "string"
+        },
+        "maxDuration": {
+          "type": "string",
+          "format": "google-duration",
+          "description": "Optional. Filtering for spans with a maximum duration."
+        },
+        "displayNames": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Optional. Filtering for spans containing one of the span display names in the list. Multiple values will be OR'd together."
+        },
+        "apphubServices": {
+          "description": "Optional. Filtering for spans containing one of the Apphub service IDs in the list. Multiple values will be OR'd together. Example: \"service-id1\", \"service-id2\"",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "description": "First version of span filtering that is supported by the Trace component.",
+      "type": "object"
+    },
+    "SparkChartView": {
+      "id": "SparkChartView",
+      "description": "A sparkChart is a small chart suitable for inclusion in a table-cell or inline in text. This message contains the configuration for a sparkChart to show up on a Scorecard, showing recent trends of the scorecard's timeseries.",
+      "properties": {
+        "sparkChartType": {
+          "description": "Required. The type of sparkchart to show in this chartView.",
+          "enumDescriptions": [
+            "Not allowed in well-formed requests.",
+            "The sparkline will be rendered as a small line chart.",
+            "The sparkbar will be rendered as a small bar chart."
+          ],
+          "type": "string",
+          "enum": [
+            "SPARK_CHART_TYPE_UNSPECIFIED",
+            "SPARK_LINE",
+            "SPARK_BAR"
+          ]
+        },
+        "minAlignmentPeriod": {
+          "description": "The lower bound on data point frequency in the chart implemented by specifying the minimum alignment period to use in a time series query. For example, if the data is published once every 10 minutes it would not make sense to fetch and align data at one minute intervals. This field is optional and exists only as a hint.For PromQL queries, this field is used to set the minimum interval for the query step, controlling data granularity. Larger values can improve performance on long time ranges. See Querying Basics and Range Queries for more details on the PromQL step.",
+          "type": "string",
+          "format": "google-duration"
+        }
+      },
+      "type": "object"
+    },
+    "StatisticalTimeSeriesFilter": {
+      "id": "StatisticalTimeSeriesFilter",
+      "properties": {
+        "numTimeSeries": {
+          "type": "integer",
+          "description": "How many time series to output.",
+          "format": "int32"
+        },
+        "rankingMethod": {
+          "description": "rankingMethod is applied to a set of time series, and then the produced value for each individual time series is used to compare a given time series to others. These are methods that cannot be applied stream-by-stream, but rather require the full context of a request to evaluate time series.",
+          "type": "string",
+          "enum": [
+            "METHOD_UNSPECIFIED",
+            "METHOD_CLUSTER_OUTLIER"
+          ],
+          "enumDescriptions": [
+            "Not allowed in well-formed requests.",
+            "Compute the outlier score of each stream."
+          ]
+        }
+      },
+      "description": "A filter that ranks streams based on their statistical relation to other streams in a request. Note: This field is deprecated and completely ignored by the API.",
+      "type": "object"
+    },
+    "StringArray": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "description": "The values of the array",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "An array of strings",
+      "id": "StringArray"
+    },
+    "TableDataSet": {
+      "type": "object",
+      "description": "Groups a time series query definition with table options.",
+      "id": "TableDataSet",
+      "properties": {
+        "minAlignmentPeriod": {
+          "type": "string",
+          "format": "google-duration",
+          "description": "Optional. The lower bound on data point frequency for this data set, implemented by specifying the minimum alignment period to use in a time series query For example, if the data is published once every 10 minutes, the min_alignment_period should be at least 10 minutes. It would not make sense to fetch and align data at one minute intervals."
+        },
+        "tableDisplayOptions": {
+          "description": "Optional. Table display options for configuring how the table is rendered.",
+          "$ref": "TableDisplayOptions"
+        },
+        "timeSeriesQuery": {
+          "description": "Required. Fields for querying time series data from the Stackdriver metrics API.",
+          "$ref": "TimeSeriesQuery"
+        },
+        "tableTemplate": {
+          "description": "Optional. A template string for naming TimeSeries in the resulting data set. This should be a string with interpolations of the form ${label_name}, which will resolve to the label's value i.e. \"${resource.labels.project_id}.\"",
+          "type": "string"
+        }
+      }
+    },
+    "TableDisplayOptions": {
+      "id": "TableDisplayOptions",
+      "type": "object",
+      "properties": {
+        "shownColumns": {
+          "description": "Optional. This field is unused and has been replaced by TimeSeriesTable.column_settings",
+          "items": {
+            "type": "string"
+          },
+          "deprecated": true,
+          "type": "array"
+        }
+      },
+      "description": "Table display options that can be reused."
+    },
+    "TemplateVariableCondition": {
+      "type": "object",
+      "id": "TemplateVariableCondition",
+      "properties": {
+        "templateVariable": {
+          "description": "The template variable whose value is evaluated.",
+          "type": "string"
+        },
+        "templateVariableValue": {
+          "type": "string",
+          "description": "The value to compare the template variable to. For example, if the comparator is REGEX_FULL_MATCH, this field should contain a regex."
+        },
+        "comparator": {
+          "type": "string",
+          "enum": [
+            "COMPARATOR_UNSPECIFIED",
+            "REGEX_FULL_MATCH"
+          ],
+          "enumDescriptions": [
+            "No comparator specified. Behavior defaults to REGEX_FULL_MATCH.",
+            "Condition with this comparator evaluates to true when the value of the template variables matches the specified regex."
+          ],
+          "description": "Comparator to use to evaluate whether the value of the template variable matches the template_variable_value. For example, if the comparator is REGEX_FULL_MATCH, template_variable_value would contain a regex that is matched against the value of the template variable."
+        }
+      },
+      "description": "A condition whose evaluation is based on the value of a template variable."
+    },
+    "Text": {
+      "properties": {
+        "style": {
+          "$ref": "TextStyle",
+          "description": "How the text is styled"
+        },
+        "content": {
+          "description": "The text content to be displayed.",
+          "type": "string"
+        },
+        "format": {
+          "description": "How the text content is formatted.",
+          "enumDescriptions": [
+            "Format is unspecified. Defaults to MARKDOWN.",
+            "The text contains Markdown formatting.",
+            "The text contains no special formatting."
+          ],
+          "type": "string",
+          "enum": [
+            "FORMAT_UNSPECIFIED",
+            "MARKDOWN",
+            "RAW"
+          ]
+        }
+      },
+      "description": "A widget that displays textual content.",
+      "type": "object",
+      "id": "Text"
+    },
+    "TextStyle": {
+      "id": "TextStyle",
+      "description": "Properties that determine how the title and content are styled",
+      "properties": {
+        "verticalAlignment": {
+          "description": "The vertical alignment of both the title and content",
+          "enumDescriptions": [
+            "No vertical alignment specified, will default to V_TOP",
+            "Top-align",
+            "Center-align",
+            "Bottom-align"
+          ],
+          "type": "string",
+          "enum": [
+            "VERTICAL_ALIGNMENT_UNSPECIFIED",
+            "V_TOP",
+            "V_CENTER",
+            "V_BOTTOM"
+          ]
+        },
+        "textColor": {
+          "type": "string",
+          "description": "The text color as a hex string. \"#RRGGBB\" or \"#RGB\""
+        },
+        "backgroundColor": {
+          "type": "string",
+          "description": "The background color as a hex string. \"#RRGGBB\" or \"#RGB\""
+        },
+        "padding": {
+          "type": "string",
+          "enum": [
+            "PADDING_SIZE_UNSPECIFIED",
+            "P_EXTRA_SMALL",
+            "P_SMALL",
+            "P_MEDIUM",
+            "P_LARGE",
+            "P_EXTRA_LARGE"
+          ],
+          "description": "The amount of padding around the widget",
+          "enumDescriptions": [
+            "No padding size specified, will default to P_EXTRA_SMALL",
+            "Extra small padding",
+            "Small padding",
+            "Medium padding",
+            "Large padding",
+            "Extra large padding"
+          ]
+        },
+        "horizontalAlignment": {
+          "description": "The horizontal alignment of both the title and content",
+          "type": "string",
+          "enum": [
+            "HORIZONTAL_ALIGNMENT_UNSPECIFIED",
+            "H_LEFT",
+            "H_CENTER",
+            "H_RIGHT"
+          ],
+          "enumDescriptions": [
+            "No horizontal alignment specified, will default to H_LEFT",
+            "Left-align",
+            "Center-align",
+            "Right-align"
+          ]
+        },
+        "fontSize": {
+          "type": "string",
+          "enum": [
+            "FONT_SIZE_UNSPECIFIED",
+            "FS_EXTRA_SMALL",
+            "FS_SMALL",
+            "FS_MEDIUM",
+            "FS_LARGE",
+            "FS_EXTRA_LARGE"
+          ],
+          "description": "Font sizes for both the title and content. The title will still be larger relative to the content.",
+          "enumDescriptions": [
+            "No font size specified, will default to FS_LARGE",
+            "Extra small font size",
+            "Small font size",
+            "Medium font size",
+            "Large font size",
+            "Extra large font size"
+          ]
+        },
+        "pointerLocation": {
+          "type": "string",
+          "enum": [
+            "POINTER_LOCATION_UNSPECIFIED",
+            "PL_TOP",
+            "PL_RIGHT",
+            "PL_BOTTOM",
+            "PL_LEFT",
+            "PL_TOP_LEFT",
+            "PL_TOP_RIGHT",
+            "PL_RIGHT_TOP",
+            "PL_RIGHT_BOTTOM",
+            "PL_BOTTOM_RIGHT",
+            "PL_BOTTOM_LEFT",
+            "PL_LEFT_BOTTOM",
+            "PL_LEFT_TOP"
+          ],
+          "description": "The pointer location for this widget (also sometimes called a \"tail\")",
+          "enumDescriptions": [
+            "No visual pointer",
+            "Placed in the middle of the top of the widget",
+            "Placed in the middle of the right side of the widget",
+            "Placed in the middle of the bottom of the widget",
+            "Placed in the middle of the left side of the widget",
+            "Placed on the left side of the top of the widget",
+            "Placed on the right side of the top of the widget",
+            "Placed on the top of the right side of the widget",
+            "Placed on the bottom of the right side of the widget",
+            "Placed on the right side of the bottom of the widget",
+            "Placed on the left side of the bottom of the widget",
+            "Placed on the bottom of the left side of the widget",
+            "Placed on the top of the left side of the widget"
+          ]
+        }
+      },
+      "type": "object"
+    },
+    "Threshold": {
+      "id": "Threshold",
+      "properties": {
+        "color": {
+          "description": "The state color for this threshold. Color is not allowed in a XyChart.",
+          "type": "string",
+          "enum": [
+            "COLOR_UNSPECIFIED",
+            "YELLOW",
+            "RED"
+          ],
+          "enumDescriptions": [
+            "Color is unspecified. Not allowed in well-formed requests.",
+            "Crossing the threshold is \"concerning\" behavior.",
+            "Crossing the threshold is \"emergency\" behavior."
+          ]
+        },
+        "label": {
+          "description": "A label for the threshold.",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value of the threshold. The value should be defined in the native scale of the metric.",
+          "format": "double",
+          "type": "number"
+        },
+        "targetAxis": {
+          "enumDescriptions": [
+            "The target axis was not specified. Defaults to Y1.",
+            "The y_axis (the right axis of chart).",
+            "The y2_axis (the left axis of chart)."
+          ],
+          "description": "The target axis to use for plotting the threshold. Target axis is not allowed in a Scorecard.",
+          "type": "string",
+          "enum": [
+            "TARGET_AXIS_UNSPECIFIED",
+            "Y1",
+            "Y2"
+          ]
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "DIRECTION_UNSPECIFIED",
+            "ABOVE",
+            "BELOW"
+          ],
+          "enumDescriptions": [
+            "Not allowed in well-formed requests.",
+            "The threshold will be considered crossed if the actual value is above the threshold value.",
+            "The threshold will be considered crossed if the actual value is below the threshold value."
+          ],
+          "description": "The direction for the current threshold. Direction is not allowed in a XyChart."
+        }
+      },
+      "description": "Defines a threshold for categorizing time series values.",
+      "type": "object"
+    },
+    "Tile": {
+      "description": "A single tile in the mosaic. The placement and size of the tile are configurable.",
+      "properties": {
+        "widget": {
+          "description": "The informational widget contained in the tile. For example an XyChart.",
+          "$ref": "Widget"
+        },
+        "height": {
+          "description": "The height of the tile, measured in grid blocks. Tiles must have a minimum height of 1.",
+          "format": "int32",
+          "type": "integer"
+        },
+        "yPos": {
+          "description": "The zero-indexed position of the tile in grid blocks relative to the top edge of the grid. y_pos cannot be negative.",
+          "type": "integer",
+          "format": "int32"
+        },
+        "width": {
+          "format": "int32",
+          "description": "The width of the tile, measured in grid blocks. Tiles must have a minimum width of 1.",
+          "type": "integer"
+        },
+        "xPos": {
+          "format": "int32",
+          "description": "The zero-indexed position of the tile in grid blocks relative to the left edge of the grid. Tiles must be contained within the specified number of columns. x_pos cannot be negative.",
+          "type": "integer"
+        }
+      },
+      "id": "Tile",
+      "type": "object"
+    },
+    "TimeRange": {
+      "description": "Represents a time range.",
+      "properties": {
+        "absoluteWindow": {
+          "description": "Optional. Represents a time range with absolute start and end times. The start time is inclusive, and the end time is exclusive.",
+          "$ref": "Interval"
+        },
+        "relativeDuration": {
+          "type": "string",
+          "format": "google-duration",
+          "description": "Optional. Specifies the duration used to shift the data relative to current time as the end time. The duration must be positive."
+        }
+      },
+      "type": "object",
+      "id": "TimeRange"
+    },
+    "TimeSeriesFilter": {
+      "properties": {
+        "statisticalTimeSeriesFilter": {
+          "deprecated": true,
+          "$ref": "StatisticalTimeSeriesFilter",
+          "description": "Statistics based time series filter. Note: This field is deprecated and completely ignored by the API."
+        },
+        "filter": {
+          "description": "Required. The monitoring filter (https://cloud.google.com/monitoring/api/v3/filters) that identifies the metric types, resources, and projects to query.",
+          "type": "string"
+        },
+        "secondaryAggregation": {
+          "description": "Apply a second aggregation after aggregation is applied.",
+          "$ref": "Aggregation"
+        },
+        "pickTimeSeriesFilter": {
+          "$ref": "PickTimeSeriesFilter",
+          "description": "Ranking based time series filter."
+        },
+        "aggregation": {
+          "description": "By default, the raw time series data is returned. Use this field to combine multiple time series for different views of the data.",
+          "$ref": "Aggregation"
+        }
+      },
+      "id": "TimeSeriesFilter",
+      "description": "A filter that defines a subset of time series data that is displayed in a widget. Time series data is fetched using the ListTimeSeries (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.timeSeries/list) method.",
+      "type": "object"
+    },
+    "TimeSeriesFilterRatio": {
+      "id": "TimeSeriesFilterRatio",
+      "type": "object",
+      "properties": {
+        "secondaryAggregation": {
+          "$ref": "Aggregation",
+          "description": "Apply a second aggregation after the ratio is computed."
+        },
+        "pickTimeSeriesFilter": {
+          "description": "Ranking based time series filter.",
+          "$ref": "PickTimeSeriesFilter"
+        },
+        "denominator": {
+          "description": "The denominator of the ratio.",
+          "$ref": "RatioPart"
+        },
+        "numerator": {
+          "$ref": "RatioPart",
+          "description": "The numerator of the ratio."
+        },
+        "statisticalTimeSeriesFilter": {
+          "$ref": "StatisticalTimeSeriesFilter",
+          "description": "Statistics based time series filter. Note: This field is deprecated and completely ignored by the API.",
+          "deprecated": true
+        }
+      },
+      "description": "A pair of time series filters that define a ratio computation. The output time series is the pair-wise division of each aligned element from the numerator and denominator time series."
+    },
+    "TimeSeriesQuery": {
+      "description": "TimeSeriesQuery collects the set of supported methods for querying time series data from the Stackdriver metrics API.",
+      "type": "object",
+      "properties": {
+        "traceQuery": {
+          "$ref": "TraceQuery",
+          "description": "Optional. Preview: Query for traces. This is a preview feature and may be subject to change before final release."
+        },
+        "timeSeriesFilter": {
+          "description": "Filter parameters to fetch time series.",
+          "$ref": "TimeSeriesFilter"
+        },
+        "prometheusQuery": {
+          "description": "A query used to fetch time series with PromQL.",
+          "type": "string"
+        },
+        "timeSeriesQueryLanguage": {
+          "description": "A query used to fetch time series with MQL.",
+          "type": "string"
+        },
+        "outputFullDuration": {
+          "type": "boolean",
+          "description": "Optional. If set, Cloud Monitoring will treat the full query duration as the alignment period so that there will be only 1 output value.*Note: This could override the configured alignment period except for the cases where a series of data points are expected, like - XyChart - Scorecard's spark chart"
+        },
+        "unitOverride": {
+          "type": "string",
+          "description": "The unit of data contained in fetched time series. If non-empty, this unit will override any unit that accompanies fetched data. The format is the same as the unit (https://cloud.google.com/monitoring/api/ref_v3/rest/v3/projects.metricDescriptors) field in MetricDescriptor."
+        },
+        "timeSeriesFilterRatio": {
+          "description": "Parameters to fetch a ratio between two time series filters.",
+          "$ref": "TimeSeriesFilterRatio"
+        },
+        "opsAnalyticsQuery": {
+          "description": "Preview: A query used to fetch a time series, category series, or numeric series with SQL. This is a preview feature and may be subject to change before final release.",
+          "$ref": "OpsAnalyticsQuery"
+        }
+      },
+      "id": "TimeSeriesQuery"
+    },
+    "TimeSeriesTable": {
+      "description": "A table that displays time series data.",
+      "id": "TimeSeriesTable",
+      "type": "object",
+      "properties": {
+        "metricVisualization": {
+          "enumDescriptions": [
+            "Unspecified state",
+            "Default text rendering",
+            "Horizontal bar rendering"
+          ],
+          "type": "string",
+          "enum": [
+            "METRIC_VISUALIZATION_UNSPECIFIED",
+            "NUMBER",
+            "BAR"
+          ],
+          "description": "Optional. Store rendering strategy"
+        },
+        "dataSets": {
+          "description": "Required. The data displayed in this table.",
+          "items": {
+            "$ref": "TableDataSet"
+          },
+          "type": "array"
+        },
+        "columnSettings": {
+          "items": {
+            "$ref": "ColumnSettings"
+          },
+          "type": "array",
+          "description": "Optional. The list of the persistent column settings for the table."
+        }
+      }
+    },
+    "TraceQuery": {
+      "type": "object",
+      "id": "TraceQuery",
+      "description": "LINT.IfChange Preview: Query for traces. This is a preview feature and may be subject to change before final release.",
+      "properties": {
+        "resourceContainer": {
+          "description": "Optional. The resource name of the project or Trace scope to fetch data from. If empty, the widget will default to the project's default Trace scope. If scope cannot be determined, then we fallback to the current project. Optional.",
+          "type": "string"
+        },
+        "spanDataValue": {
+          "enumDescriptions": [
+            "We are required to have an UNSPECIFIED value for enums. This should not be used in practice.",
+            "Span count data value",
+            "Span duration data value",
+            "Span duration percentiles data value"
+          ],
+          "type": "string",
+          "enum": [
+            "SPAN_DATA_VALUE_UNSPECIFIED",
+            "SPAN_COUNT",
+            "SPAN_DURATION",
+            "SPAN_DURATION_PERCENTILES"
+          ],
+          "description": "The type of span data value to be displayed on the chart. Required."
+        },
+        "spanFilters": {
+          "description": "First version of span filtering that we will support. Required.",
+          "$ref": "SpanFilters"
+        }
+      }
+    },
+    "Treemap": {
+      "description": "A widget that displays hierarchical data as a treemap.",
+      "properties": {
+        "treemapHierarchy": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Required. Ordered labels representing the hierarchical treemap structure."
+        },
+        "dataSets": {
+          "items": {
+            "$ref": "TreemapDataSet"
+          },
+          "description": "Required. The collection of datasets used to construct and populate the treemap. For the rendered treemap rectangles: Color is determined by the aggregated value for each grouping. Size is proportional to the count of time series aggregated within that rectangle's segment.",
+          "type": "array"
+        }
+      },
+      "id": "Treemap",
+      "type": "object"
+    },
+    "TreemapDataSet": {
+      "description": "The data represented by the treemap. Needs to include the data itself, plus rules on how to organize it hierarchically.",
+      "properties": {
+        "breakdowns": {
+          "type": "array",
+          "description": "Optional. The collection of breakdowns to be applied to the dataset. A breakdown is a way to slice the data. For example, you can break down the data by region.",
+          "items": {
+            "$ref": "Breakdown"
+          }
+        },
+        "timeSeriesQuery": {
+          "description": "Required. The query that fetches the relevant data. See google.monitoring.dashboard.v1.TimeSeriesQuery",
+          "$ref": "TimeSeriesQuery"
+        },
+        "measures": {
+          "items": {
+            "$ref": "Measure"
+          },
+          "description": "Optional. A collection of measures. A measure is a measured value of a property in your data. For example, rainfall in inches, number of units sold, revenue gained, etc.",
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "id": "TreemapDataSet"
+    },
+    "VisibilityCondition": {
+      "id": "VisibilityCondition",
+      "type": "object",
+      "properties": {
+        "templateVariableCondition": {
+          "description": "A condition whose evaluation is based on the value of a template variable.",
+          "$ref": "TemplateVariableCondition"
+        }
+      },
+      "description": "Condition that determines whether the widget should be displayed."
+    },
+    "Widget": {
+      "description": "Widget contains a single dashboard component and configuration of how to present the component in the dashboard.",
+      "type": "object",
+      "id": "Widget",
+      "properties": {
+        "sectionHeader": {
+          "description": "A widget that defines a section header for easier navigation of the dashboard.",
+          "$ref": "SectionHeader"
+        },
+        "blank": {
+          "description": "A blank space.",
+          "$ref": "Empty"
+        },
+        "timeSeriesTable": {
+          "description": "A widget that displays time series data in a tabular format.",
+          "$ref": "TimeSeriesTable"
+        },
+        "errorReportingPanel": {
+          "$ref": "ErrorReportingPanel",
+          "description": "A widget that displays a list of error groups."
+        },
+        "logsPanel": {
+          "$ref": "LogsPanel",
+          "description": "A widget that shows a stream of logs."
+        },
+        "xyChart": {
+          "description": "A chart of time series data.",
+          "$ref": "XyChart"
+        },
+        "collapsibleGroup": {
+          "description": "A widget that groups the other widgets. All widgets that are within the area spanned by the grouping widget are considered member widgets.",
+          "$ref": "CollapsibleGroup"
+        },
+        "scorecard": {
+          "description": "A scorecard summarizing time series data.",
+          "$ref": "Scorecard"
+        },
+        "treemap": {
+          "description": "A widget that displays data as a treemap.",
+          "$ref": "Treemap"
+        },
+        "pieChart": {
+          "description": "A widget that displays timeseries data as a pie chart.",
+          "$ref": "PieChart"
+        },
+        "singleViewGroup": {
+          "$ref": "SingleViewGroup",
+          "description": "A widget that groups the other widgets by using a dropdown menu."
+        },
+        "visibilityCondition": {
+          "$ref": "VisibilityCondition",
+          "description": "Optional. If set, this widget is rendered only when the condition is evaluated to true."
+        },
+        "incidentList": {
+          "description": "A widget that shows list of incidents.",
+          "$ref": "IncidentList"
+        },
+        "filterControl": {
+          "$ref": "FilterControl",
+          "description": "A widget that displays an input field to change the value of a template variable."
+        },
+        "text": {
+          "$ref": "Text",
+          "description": "A raw string or markdown displaying textual content."
+        },
+        "alertChart": {
+          "description": "A chart of alert policy data.",
+          "$ref": "AlertChart"
+        },
+        "timeRange": {
+          "description": "Optional. Represents a time range for the widget. When set, this time range will override the dashboard time range. Supported for line, stacked area and stacked bar widgets only.",
+          "$ref": "TimeRange"
+        },
+        "id": {
+          "description": "Optional. The widget id. Ids may be made up of alphanumerics, dashes and underscores. Widget ids are optional.",
+          "type": "string"
+        },
+        "title": {
+          "description": "Optional. The title of the widget.",
+          "type": "string"
+        }
+      }
+    },
+    "XyChart": {
+      "id": "XyChart",
+      "description": "A chart that displays data on a 2D (X and Y axes) plane.",
+      "properties": {
+        "timeshiftDuration": {
+          "description": "The duration used to display a comparison chart. A comparison chart simultaneously shows values from two similar-length time periods (e.g., week-over-week metrics). The duration must be positive, and it can only be applied to charts with data sets of LINE plot type.",
+          "type": "string",
+          "format": "google-duration"
+        },
+        "dataSets": {
+          "description": "Required. The data displayed in this chart.",
+          "items": {
+            "$ref": "DataSet"
+          },
+          "type": "array"
+        },
+        "chartOptions": {
+          "$ref": "ChartOptions",
+          "description": "Display options for the chart."
+        },
+        "xAxis": {
+          "$ref": "Axis",
+          "description": "The properties applied to the x-axis."
+        },
+        "thresholds": {
+          "description": "Threshold lines drawn horizontally across the chart.",
+          "items": {
+            "$ref": "Threshold"
+          },
+          "type": "array"
+        },
+        "y2Axis": {
+          "$ref": "Axis",
+          "description": "The properties applied to the y2-axis."
+        },
+        "yAxis": {
+          "description": "The properties applied to the y-axis.",
+          "$ref": "Axis"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

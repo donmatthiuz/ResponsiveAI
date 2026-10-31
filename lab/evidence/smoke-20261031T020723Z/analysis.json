@@ -1,0 +1,179 @@
+{
+  "run_id": "smoke-20261031T020723Z",
+  "execution_kind": "accelerated_test",
+  "status": "complete",
+  "attempts": 60,
+  "http_classes": {
+    "2xx": 37,
+    "4xx": 23
+  },
+  "http_class_shares_attempts": {
+    "2xx": 0.6166666666666667,
+    "4xx": 0.38333333333333336
+  },
+  "intentions": {
+    "valid": 37,
+    "not_found": 8,
+    "invalid_state": 7,
+    "invalid_payload": 8
+  },
+  "requests_by_scheduled_minute": {
+    "10": 1,
+    "15": 1,
+    "16": 1,
+    "19": 1,
+    "20": 1,
+    "21": 6,
+    "23": 3,
+    "24": 1,
+    "25": 3,
+    "26": 3,
+    "27": 1,
+    "28": 3,
+    "29": 2,
+    "30": 2,
+    "31": 2,
+    "32": 4,
+    "33": 3,
+    "34": 3,
+    "35": 2,
+    "36": 4,
+    "37": 3,
+    "38": 3,
+    "39": 2,
+    "41": 2,
+    "42": 1,
+    "44": 1,
+    "51": 1
+  },
+  "category_rates": [
+    {
+      "category": "books",
+      "period": "baseline",
+      "attempts": 13,
+      "http_responses": 13,
+      "intended_invalid": 6,
+      "intended_invalid_rate": 0.46153846153846156,
+      "client_errors": 6,
+      "client_error_rate_http": 0.46153846153846156
+    },
+    {
+      "category": "books",
+      "period": "scenario_window",
+      "attempts": 7,
+      "http_responses": 7,
+      "intended_invalid": 1,
+      "intended_invalid_rate": 0.14285714285714285,
+      "client_errors": 1,
+      "client_error_rate_http": 0.14285714285714285
+    },
+    {
+      "category": "clothing",
+      "period": "baseline",
+      "attempts": 12,
+      "http_responses": 12,
+      "intended_invalid": 2,
+      "intended_invalid_rate": 0.16666666666666666,
+      "client_errors": 2,
+      "client_error_rate_http": 0.16666666666666666
+    },
+    {
+      "category": "clothing",
+      "period": "scenario_window",
+      "attempts": 6,
+      "http_responses": 6,
+      "intended_invalid": 3,
+      "intended_invalid_rate": 0.5,
+      "client_errors": 3,
+      "client_error_rate_http": 0.5
+    },
+    {
+      "category": "electronics",
+      "period": "baseline",
+      "attempts": 17,
+      "http_responses": 17,
+      "intended_invalid": 8,
+      "intended_invalid_rate": 0.47058823529411764,
+      "client_errors": 8,
+      "client_error_rate_http": 0.47058823529411764
+    },
+    {
+      "category": "electronics",
+      "period": "scenario_window",
+      "attempts": 5,
+      "http_responses": 5,
+      "intended_invalid": 3,
+      "intended_invalid_rate": 0.6,
+      "client_errors": 3,
+      "client_error_rate_http": 0.6
+    }
+  ],
+  "client_latency_by_operation_tier": {
+    "cancel / premium": {
+      "p50": 145.365,
+      "p95": 185.195
+    },
+    "cancel / standard": {
+      "p50": 152.573,
+      "p95": 232.487
+    },
+    "create / premium": {
+      "p50": 127.009,
+      "p95": 161.199
+    },
+    "create / standard": {
+      "p50": 138.917,
+      "p95": 257.668
+    },
+    "get / premium": {
+      "p50": 119.21,
+      "p95": 134.91
+    },
+    "get / standard": {
+      "p50": 136.62,
+      "p95": 147.595
+    }
+  },
+  "backend_latency_by_endpoint_tier": {
+    "GET /orders/{id} / premium": {
+      "p50": 11.426,
+      "p95": 31.581
+    },
+    "GET /orders/{id} / standard": {
+      "p50": 19.459,
+      "p95": 36.658
+    },
+    "POST /orders / premium": {
+      "p50": 26.002,
+      "p95": 48.562
+    },
+    "POST /orders / standard": {
+      "p50": 21.739,
+      "p95": 171.498
+    },
+    "POST /orders/{id}/cancel / premium": {
+      "p50": 53.573,
+      "p95": 82.325
+    },
+    "POST /orders/{id}/cancel / standard": {
+      "p50": 40.77,
+      "p95": 120.726
+    }
+  },
+  "logs": {
+    "provided": true,
+    "events_for_run": 60,
+    "paired_requests": 60,
+    "duplicate_ids": 0,
+    "status_mismatches": [],
+    "error_types": {
+      "not_found": 8,
+      "invalid_state": 7,
+      "invalid_payload": 8
+    }
+  },
+  "dispatch_delay_ms": {
+    "p50": 0.767,
+    "p95": 1.426
+  }
+}

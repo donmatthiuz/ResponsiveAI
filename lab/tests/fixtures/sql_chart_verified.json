@@ -1,0 +1,80 @@
+{
+  "provenance": {
+    "source": "evidence/smoke-20261031T020723Z/dashboard.json",
+    "title": "Errores por categoría · SQL verificado.",
+    "validation": "El usuario confirmó los tres puntos en el dashboard real."
+  },
+  "dimensions": [
+    {
+      "column": "minute",
+      "sortOrder": "SORT_ORDER_NONE",
+      "sortColumn": "minute",
+      "columnType": "TIMESTAMP"
+    }
+  ],
+  "breakdown": {
+    "column": "category",
+    "limit": 5,
+    "aggregationFunction": {
+      "type": "count"
+    },
+    "sortOrder": "SORT_ORDER_DESCENDING"
+  },
+  "measure": {
+    "column": "client_error_rate",
+    "aggregationFunction": {
+      "type": "none"
+    }
+  },
+  "chartOptions": {
+    "mode": "COLOR"
+  },
+  "widget": {
+    "title": "Errores por categoría · SQL verificado.",
+    "xyChart": {
+      "dataSets": [
+        {
+          "timeSeriesQuery": {
+            "opsAnalyticsQuery": {
+              "sql": "SELECT\n  TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n  JSON_VALUE(json_payload.category) AS category,\n  COUNT(*) AS requests,\n  SAFE_DIVIDE(\n    COUNTIF(SAFE_CAST(JSON_VALUE(json_payload.status_code) AS INT64)\n      BETWEEN 400 AND 499),\n    COUNT(*)\n  ) AS client_error_rate\nFROM `adfasdfasfd-1899a.global._Default._Default`\nWHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z')\n  AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n  AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n  AND JSON_VALUE(json_payload.phase) = 'traffic'\n  AND JSON_VALUE(json_payload.message) = 'request_completed'\nGROUP BY minute, category\nORDER BY minute, category"
+            }
+          },
+          "plotType": "LINE",
+          "targetAxis": "Y1",
+          "dimensions": [
+            {
+              "column": "minute",
+              "sortOrder": "SORT_ORDER_NONE",
+              "sortColumn": "minute",
+              "columnType": "TIMESTAMP"
+            }
+          ],
+          "measures": [
+            {
+              "column": "client_error_rate",
+              "aggregationFunction": {
+                "type": "none"
+              }
+            }
+          ],
+          "breakdowns": [
+            {
+              "column": "category",
+              "limit": 5,
+              "aggregationFunction": {
+                "type": "count"
+              },
+              "sortOrder": "SORT_ORDER_DESCENDING"
+            }
+          ]
+        }
+      ],
+      "yAxis": {
+        "scale": "LINEAR"
+      },
+      "chartOptions": {
+        "mode": "COLOR"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "scope": "local_dashboard_proposal",
+  "reference": "dashboard.json, widget Errores por categoría · SQL verificado.",
+  "reference_confirmed_by_user": true,
+  "proposal": "../../observability/dashboard.smoke-review.json",
+  "preserved_widgets": 9,
+  "changes": "Dimensión y selección de series de los dos SQL originales alineadas con el widget verificado; texto de instrucciones actualizado.",
+  "cloud_apply_executed_by_agent": false,
+  "cloud_validation_pending": [
+    "Errores SQL original",
+    "Latencia SQL"
+  ],
+  "local_checks": {
+    "observability_pytest_passed": 4,
+    "terraform_validate": "passed",
+    "ruff_check": "passed",
+    "ruff_format": "passed",
+    "terraform_fmt": "passed"
+  },
+  "hashes": {
+    "observability/dashboard.json": "a9ec90aa5cd89ac5476440d3c277570da5107a80777491fe140b7fa02928d48f",
+    "observability/dashboard.smoke-review.json": "58c006eacf9619f580be86b94580d18aa4c880499e5dac8a7d61bc538e7a0d01",
+    "tests/test_observability.py": "161a0bee7c0a190521535c21e56ca9bb65f89315847544994ba805e2404b857b",
+    "tests/fixtures/sql_chart_verified.json": "618fcc3f4fb96de633458bc3f62b73c3b59efa39877a2c3f68deb136c179032f"
+  },
+  "smoke_correlation": {
+    "csv_attempts": 60,
+    "application_events": 60,
+    "paired": 60,
+    "duplicate_ids": 0,
+    "status_mismatches": 0
+  }
+}

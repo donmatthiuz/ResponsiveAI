@@ -1,0 +1,17 @@
+{
+  "cancel:17:electronics:standard": "d1de66884c6b444591f4563c42d6761c",
+  "active:clothing:standard": "7355d7eea9a84e03a4d77ea848f4ddc3",
+  "active:books:standard": "c0debede5435463cb5a34e33eea34921",
+  "active:electronics:premium": "48b1e7998f5f4926bfb668c335745bf4",
+  "cancel:12:books:standard": "6771ecdb619d4e50aa06333046cb0fe5",
+  "active:clothing:premium": "634e28cf8263416e814a1cb0efa71925",
+  "cancel:24:electronics:premium": "3e887224375741f181738fecafe4c107",
+  "cancel:27:electronics:premium": "57b4910788cb45a8b06e8a42520b06c4",
+  "cancel:39:electronics:premium": "d5c50083091b4311abef6c729945f1cc",
+  "cancel:53:electronics:premium": "048f6761aed5484f865a5dc4719d58e8",
+  "cancel:45:books:standard": "c9a54e189bee4ec2a9a0a6aa34ee6b46",
+  "cancelled:electronics:premium": "4b06d0b6601840abb51c215acf49d4ac",
+  "cancelled:books:standard": "bbf2a136985546e583b83889c5b0dd3e",
+  "cancelled:electronics:standard": "c2e260fd00f649bab6fb77838024b18c",
+  "cancelled:clothing:premium": "5175314814654b7ca6df5fc04dfcc377"
+}

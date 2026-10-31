@@ -1,0 +1,342 @@
+{
+  "name": "projects/adfasdfasfd-1899a/dashboards/9e847e3b-cd26-45f6-9cdf-de9c34ffbf93",
+  "displayName": "Laboratorio \u00b7 API de pedidos observable",
+  "etag": "bbceb7f2689d0aaf46e90ce13eb72c68",
+  "gridLayout": {
+    "columns": "2",
+    "widgets": [
+      {
+        "title": "Solicitudes por minuto y clase HTTP \u00b7 nativa",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_count\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "metric.labels.response_code_class"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s",
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "Solicitudes/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Latencia nativa p50 / p95",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_latencies\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_50"
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "legendTemplate": "p50",
+              "minAlignmentPeriod": "60s",
+              "targetAxis": "Y1"
+            },
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"run.googleapis.com/request_latencies\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_95"
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "legendTemplate": "p95",
+              "minAlignmentPeriod": "60s",
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Resultados por categor\u00eda \u00b7 logs",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"logging.googleapis.com/user/lab_request_completed_count\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_SUM",
+                    "groupByFields": [
+                      "metric.labels.outcome",
+                      "metric.labels.category"
+                    ]
+                  }
+                }
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s",
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "Solicitudes/min",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Latencia p95 por operaci\u00f3n / segmento \u00b7 logs",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "timeSeriesFilter": {
+                  "filter": "metric.type = \"logging.googleapis.com/user/lab_request_latency_ms\" AND resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\"",
+                  "aggregation": {
+                    "alignmentPeriod": "60s",
+                    "perSeriesAligner": "ALIGN_SUM",
+                    "crossSeriesReducer": "REDUCE_PERCENTILE_95",
+                    "groupByFields": [
+                      "metric.labels.endpoint",
+                      "metric.labels.customer_tier"
+                    ]
+                  }
+                },
+                "unitOverride": "ms"
+              },
+              "plotType": "LINE",
+              "minAlignmentPeriod": "60s",
+              "targetAxis": "Y1"
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Errores de cliente / total por categor\u00eda \u00b7 SQL",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "WITH events AS (\n  SELECT timestamp,\n    COALESCE(JSON_VALUE(json_payload.category), 'unknown') AS category,\n    SAFE_CAST(JSON_VALUE(json_payload.status_code) AS INT64) AS status_code\n  FROM `adfasdfasfd-1899a.global._Default._Default`\n  WHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z') AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n    AND resource.type = 'cloud_run_revision'\n    AND JSON_VALUE(resource.labels.service_name) = 'orders-api'\n    AND JSON_VALUE(json_payload.message) = 'request_completed'\n    AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n    AND JSON_VALUE(json_payload.phase) = 'traffic'\n)\nSELECT TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute, category,\n  COUNT(*) AS requests,\n  COUNTIF(status_code BETWEEN 400 AND 499) AS client_errors,\n  COUNTIF(status_code BETWEEN 500 AND 599) AS server_errors,\n  SAFE_DIVIDE(COUNTIF(status_code BETWEEN 400 AND 499), COUNT(*)) AS client_error_rate,\n  SAFE_DIVIDE(COUNTIF(status_code BETWEEN 500 AND 599), COUNT(*)) AS server_error_rate\nFROM events\nGROUP BY minute, category\nORDER BY minute, category\n"
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "client_error_rate",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "category",
+                  "aggregationFunction": {
+                    "type": "none"
+                  },
+                  "sortOrder": "SORT_ORDER_NONE"
+                }
+              ]
+            }
+          ],
+          "yAxis": {
+            "label": "Proporci\u00f3n 0\u20131",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Latencia por segmento / operaci\u00f3n \u00b7 SQL",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "WITH events AS (\n  SELECT TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n    COALESCE(JSON_VALUE(json_payload.customer_tier), 'unknown') AS customer_tier,\n    COALESCE(JSON_VALUE(json_payload.endpoint), 'unknown') AS endpoint,\n    SAFE_CAST(JSON_VALUE(json_payload.latency_ms) AS FLOAT64) AS latency_ms\n  FROM `adfasdfasfd-1899a.global._Default._Default`\n  WHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z') AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n    AND resource.type = 'cloud_run_revision'\n    AND JSON_VALUE(resource.labels.service_name) = 'orders-api'\n    AND JSON_VALUE(json_payload.message) = 'request_completed'\n    AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n    AND JSON_VALUE(json_payload.phase) = 'traffic'\n)\nSELECT minute, customer_tier, endpoint, COUNT(*) AS requests,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(50)] AS p50_ms,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(95)] AS p95_ms\nFROM events\nWHERE latency_ms IS NOT NULL\nGROUP BY minute, customer_tier, endpoint\nORDER BY minute, customer_tier, endpoint\n"
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "p50_ms",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "customer_tier",
+                  "aggregationFunction": {
+                    "type": "none"
+                  },
+                  "sortOrder": "SORT_ORDER_NONE"
+                },
+                {
+                  "column": "endpoint",
+                  "aggregationFunction": {
+                    "type": "none"
+                  },
+                  "sortOrder": "SORT_ORDER_NONE"
+                }
+              ]
+            },
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "WITH events AS (\n  SELECT TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n    COALESCE(JSON_VALUE(json_payload.customer_tier), 'unknown') AS customer_tier,\n    COALESCE(JSON_VALUE(json_payload.endpoint), 'unknown') AS endpoint,\n    SAFE_CAST(JSON_VALUE(json_payload.latency_ms) AS FLOAT64) AS latency_ms\n  FROM `adfasdfasfd-1899a.global._Default._Default`\n  WHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z') AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n    AND resource.type = 'cloud_run_revision'\n    AND JSON_VALUE(resource.labels.service_name) = 'orders-api'\n    AND JSON_VALUE(json_payload.message) = 'request_completed'\n    AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n    AND JSON_VALUE(json_payload.phase) = 'traffic'\n)\nSELECT minute, customer_tier, endpoint, COUNT(*) AS requests,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(50)] AS p50_ms,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(95)] AS p95_ms\nFROM events\nWHERE latency_ms IS NOT NULL\nGROUP BY minute, customer_tier, endpoint\nORDER BY minute, customer_tier, endpoint\n"
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "p95_ms",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "customer_tier",
+                  "aggregationFunction": {
+                    "type": "none"
+                  },
+                  "sortOrder": "SORT_ORDER_NONE"
+                },
+                {
+                  "column": "endpoint",
+                  "aggregationFunction": {
+                    "type": "none"
+                  },
+                  "sortOrder": "SORT_ORDER_NONE"
+                }
+              ]
+            }
+          ],
+          "yAxis": {
+            "label": "ms",
+            "scale": "LINEAR"
+          }
+        }
+      },
+      {
+        "title": "Eventos API \u00b7 correlacionar por request_id y run_id",
+        "logsPanel": {
+          "filter": "resource.type = \"cloud_run_revision\" AND resource.labels.project_id = \"adfasdfasfd-1899a\" AND resource.labels.service_name = \"orders-api\" AND jsonPayload.message=\"request_completed\"",
+          "resourceNames": [
+            "projects/adfasdfasfd-1899a"
+          ]
+        }
+      },
+      {
+        "title": "Ventana y estado de validaci\u00f3n",
+        "text": {
+          "content": "Fijar intervalo UTC desde summary.json. SQL usa run_id y phase=traffic expl\u00edcitos; los filtros del dashboard no modifican sus consultas. Antes de la corrida, SQL usa pending-run y una fecha vac\u00eda. El dashboard requiere validaci\u00f3n de ingesti\u00f3n en GCP.",
+          "format": "MARKDOWN",
+          "style": {}
+        }
+      },
+      {
+        "title": "Errores por categor\u00eda \u00b7 SQL verificado.",
+        "xyChart": {
+          "dataSets": [
+            {
+              "timeSeriesQuery": {
+                "opsAnalyticsQuery": {
+                  "sql": "SELECT\n  TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n  JSON_VALUE(json_payload.category) AS category,\n  COUNT(*) AS requests,\n  SAFE_DIVIDE(\n    COUNTIF(SAFE_CAST(JSON_VALUE(json_payload.status_code) AS INT64)\n      BETWEEN 400 AND 499),\n    COUNT(*)\n  ) AS client_error_rate\nFROM `adfasdfasfd-1899a.global._Default._Default`\nWHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z')\n  AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n  AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n  AND JSON_VALUE(json_payload.phase) = 'traffic'\n  AND JSON_VALUE(json_payload.message) = 'request_completed'\nGROUP BY minute, category\nORDER BY minute, category"
+                }
+              },
+              "plotType": "LINE",
+              "targetAxis": "Y1",
+              "dimensions": [
+                {
+                  "column": "minute",
+                  "sortOrder": "SORT_ORDER_NONE",
+                  "sortColumn": "minute",
+                  "columnType": "TIMESTAMP"
+                }
+              ],
+              "measures": [
+                {
+                  "column": "client_error_rate",
+                  "aggregationFunction": {
+                    "type": "none"
+                  }
+                }
+              ],
+              "breakdowns": [
+                {
+                  "column": "category",
+                  "limit": 5,
+                  "aggregationFunction": {
+                    "type": "count"
+                  },
+                  "sortOrder": "SORT_ORDER_DESCENDING"
+                }
+              ]
+            }
+          ],
+          "yAxis": {
+            "scale": "LINEAR"
+          },
+          "chartOptions": {
+            "mode": "COLOR"
+          }
+        }
+      }
+    ]
+  }
+}

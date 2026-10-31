@@ -1,0 +1,36 @@
+{
+  "createTime": "2026-10-31T02:02:58.257782122Z",
+  "description": "Un evento request_completed por solicitud; sin IDs de alta cardinalidad.",
+  "filter": "resource.type=\"cloud_run_revision\" AND resource.labels.project_id=\"adfasdfasfd-1899a\" AND resource.labels.service_name=\"orders-api\" AND jsonPayload.message=\"request_completed\"",
+  "labelExtractors": {
+    "category": "EXTRACT(jsonPayload.category)",
+    "customer_tier": "EXTRACT(jsonPayload.customer_tier)",
+    "endpoint": "EXTRACT(jsonPayload.endpoint)",
+    "outcome": "EXTRACT(jsonPayload.outcome)"
+  },
+  "metricDescriptor": {
+    "description": "Un evento request_completed por solicitud; sin IDs de alta cardinalidad.",
+    "labels": [
+      {
+        "key": "category"
+      },
+      {
+        "key": "outcome"
+      },
+      {
+        "key": "customer_tier"
+      },
+      {
+        "key": "endpoint"
+      }
+    ],
+    "metricKind": "DELTA",
+    "name": "projects/adfasdfasfd-1899a/metricDescriptors/logging.googleapis.com/user/lab_request_completed_count",
+    "type": "logging.googleapis.com/user/lab_request_completed_count",
+    "unit": "1",
+    "valueType": "INT64"
+  },
+  "name": "lab_request_completed_count",
+  "resourceName": "projects/adfasdfasfd-1899a/metrics/lab_request_completed_count",
+  "updateTime": "2026-10-31T02:02:58.257782122Z"
+}

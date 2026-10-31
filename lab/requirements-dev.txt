@@ -1,0 +1,6 @@
+-r backend/requirements.txt
+-r simulator/requirements.txt
+pytest>=8.4,<10
+pytest-asyncio>=1.0,<2
+ruff>=0.12,<1
+google-cloud-monitoring-dashboards>=2.0,<3

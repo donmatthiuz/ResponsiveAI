@@ -1,0 +1,60 @@
+{
+  "run_id": "local-smoke",
+  "config": {
+    "target_url": "http://127.0.0.1:8080",
+    "n_requests": 60,
+    "mu_min": 30,
+    "sigma_min": 10,
+    "invalid_share": 0.3,
+    "seed": 42,
+    "scenarios": [
+      {
+        "start_min": 35,
+        "end_min": 45,
+        "effect": "double_errors",
+        "category": "electronics"
+      }
+    ]
+  },
+  "seed": 42,
+  "time_scale": 0.002,
+  "execution_kind": "accelerated_test",
+  "status": "complete",
+  "window_start_utc": "2026-10-31T01:05:09.492136+00:00",
+  "window_end_utc": "2026-10-31T01:05:16.692136+00:00",
+  "finished_at_utc": "2026-10-31T01:05:16.693745+00:00",
+  "elapsed_s": 7.20163422999758,
+  "programmed": 60,
+  "sent": 60,
+  "completed": 60,
+  "http_responses": 60,
+  "http_status_codes": {
+    "200": 14,
+    "404": 8,
+    "409": 7,
+    "201": 23,
+    "400": 8
+  },
+  "transport_errors": {},
+  "intentions": {
+    "valid": 37,
+    "not_found": 8,
+    "invalid_state": 7,
+    "invalid_payload": 8
+  },
+  "operations": {
+    "get": 11,
+    "cancel": 18,
+    "create": 31
+  },
+  "client_latency_ms_percentiles": {
+    "50": 21.750069998233812,
+    "95": 31.281916155421637,
+    "99": 34.54009295150171
+  },
+  "dispatch_delay_ms_percentiles": {
+    "50": 0.8417283590895774,
+    "95": 1.8311206829817013,
+    "99": 2.10824274958965
+  }
+}

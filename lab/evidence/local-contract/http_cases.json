@@ -1,0 +1,183 @@
+[
+  {
+    "case": "create",
+    "request_id": "local-contract-check-0001",
+    "at_utc": "2026-10-31T01:07:05.320168+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "local-contract-check-0001",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "25f03b736bb34300ba2087d517f58438",
+        "status": "created",
+        "run_id": "local-contract"
+      },
+      "request_id": "local-contract-check-0001"
+    }
+  },
+  {
+    "case": "get",
+    "request_id": "local-contract-check-0002",
+    "at_utc": "2026-10-31T01:07:05.341181+00:00",
+    "expected_status": 200,
+    "status_code": 200,
+    "response_request_id": "local-contract-check-0002",
+    "body": {
+      "order": {
+        "status": "created",
+        "customer_tier": "premium",
+        "category": "books",
+        "run_id": "local-contract",
+        "id": "25f03b736bb34300ba2087d517f58438",
+        "amount": 12.5
+      },
+      "request_id": "local-contract-check-0002"
+    }
+  },
+  {
+    "case": "cancel",
+    "request_id": "local-contract-check-0003",
+    "at_utc": "2026-10-31T01:07:05.371242+00:00",
+    "expected_status": 200,
+    "status_code": 200,
+    "response_request_id": "local-contract-check-0003",
+    "body": {
+      "order": {
+        "status": "cancelled",
+        "customer_tier": "premium",
+        "category": "books",
+        "run_id": "local-contract",
+        "id": "25f03b736bb34300ba2087d517f58438",
+        "amount": 12.5
+      },
+      "request_id": "local-contract-check-0003"
+    }
+  },
+  {
+    "case": "cancel_again",
+    "request_id": "local-contract-check-0004",
+    "at_utc": "2026-10-31T01:07:05.392980+00:00",
+    "expected_status": 409,
+    "status_code": 409,
+    "response_request_id": "local-contract-check-0004",
+    "body": {
+      "error": {
+        "type": "invalid_state",
+        "message": "El pedido ya est\u00e1 cancelado"
+      },
+      "request_id": "local-contract-check-0004"
+    }
+  },
+  {
+    "case": "invalid_amount",
+    "request_id": "local-contract-check-0005",
+    "at_utc": "2026-10-31T01:07:05.410599+00:00",
+    "expected_status": 400,
+    "status_code": 400,
+    "response_request_id": "local-contract-check-0005",
+    "body": {
+      "error": {
+        "type": "invalid_payload",
+        "message": "category, customer_tier o amount inv\u00e1lidos"
+      },
+      "request_id": "local-contract-check-0005"
+    }
+  },
+  {
+    "case": "malformed_json",
+    "request_id": "local-contract-check-0006",
+    "at_utc": "2026-10-31T01:07:05.428196+00:00",
+    "expected_status": 400,
+    "status_code": 400,
+    "response_request_id": "local-contract-check-0006",
+    "body": {
+      "error": {
+        "type": "invalid_payload",
+        "message": "Se requiere un objeto JSON"
+      },
+      "request_id": "local-contract-check-0006"
+    }
+  },
+  {
+    "case": "missing",
+    "request_id": "local-contract-check-0007",
+    "at_utc": "2026-10-31T01:07:05.448465+00:00",
+    "expected_status": 404,
+    "status_code": 404,
+    "response_request_id": "local-contract-check-0007",
+    "body": {
+      "error": {
+        "type": "not_found",
+        "message": "Pedido inexistente"
+      },
+      "request_id": "local-contract-check-0007"
+    }
+  },
+  {
+    "case": "unknown_route",
+    "request_id": "local-contract-check-0008",
+    "at_utc": "2026-10-31T01:07:05.465823+00:00",
+    "expected_status": 404,
+    "status_code": 404,
+    "response_request_id": "local-contract-check-0008",
+    "body": {
+      "error": {
+        "type": "not_found",
+        "message": "Ruta inexistente"
+      },
+      "request_id": "local-contract-check-0008"
+    }
+  },
+  {
+    "case": "wrong_method",
+    "request_id": "local-contract-check-0009",
+    "at_utc": "2026-10-31T01:07:05.483271+00:00",
+    "expected_status": 405,
+    "status_code": 405,
+    "response_request_id": "local-contract-check-0009",
+    "body": {
+      "error": {
+        "type": "method_not_allowed",
+        "message": "M\u00e9todo no permitido"
+      },
+      "request_id": "local-contract-check-0009"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "local-contract-check-0010",
+    "at_utc": "2026-10-31T01:07:05.501729+00:00",
+    "expected_status": 201,
+    "status_code": 500,
+    "response_request_id": "local-contract-check-0010",
+    "body": {
+      "error": {
+        "type": "simulated_failure",
+        "message": "Falla simulada"
+      },
+      "request_id": "local-contract-check-0010"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "local-contract-check-0011",
+    "at_utc": "2026-10-31T01:07:05.523658+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "local-contract-check-0011",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "4cc701b8b1b648c9a9ebaf0cc55bdcda",
+        "status": "created",
+        "run_id": "local-contract"
+      },
+      "request_id": "local-contract-check-0011"
+    }
+  }
+]

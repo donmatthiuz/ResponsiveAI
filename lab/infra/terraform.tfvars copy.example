@@ -1,0 +1,16 @@
+project_id            = "reemplazar-proyecto"
+region                = "us-central1"
+function_name         = "orders-api"
+failure_rate          = 0.02
+extra_latency_ms      = 0
+student_members       = [] # ["user:estudiante@universidad.edu"]
+allow_unauthenticated = true
+# Si allUsers está prohibido:
+# allow_unauthenticated = false
+# invoker_members = ["user:tu-correo@example.com"]
+# Completar tras la corrida; la consulta inicial no muestra datos a propósito.
+# analytics_run_id = "official-..."
+# analytics_start_utc = "2026-10-30T20:00:00Z"
+# analytics_end_utc = "2026-10-30T21:02:00Z"
+# Si añadiste widgets manuales, exportar el JSON antes de aplicar otra vez:
+# dashboard_override_file = "../observability/dashboard.final.json"

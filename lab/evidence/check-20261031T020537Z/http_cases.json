@@ -1,0 +1,1000 @@
+[
+  {
+    "case": "create",
+    "request_id": "check-20261031T020537Z-check-0001",
+    "at_utc": "2026-10-31T02:05:38.476496+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0001",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "dad729c5829946ad802d034797937b74",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0001"
+    }
+  },
+  {
+    "case": "get",
+    "request_id": "check-20261031T020537Z-check-0002",
+    "at_utc": "2026-10-31T02:05:38.608581+00:00",
+    "expected_status": 200,
+    "status_code": 200,
+    "response_request_id": "check-20261031T020537Z-check-0002",
+    "body": {
+      "order": {
+        "amount": 12.5,
+        "id": "dad729c5829946ad802d034797937b74",
+        "status": "created",
+        "customer_tier": "premium",
+        "category": "books",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0002"
+    }
+  },
+  {
+    "case": "cancel",
+    "request_id": "check-20261031T020537Z-check-0003",
+    "at_utc": "2026-10-31T02:05:39.192994+00:00",
+    "expected_status": 200,
+    "status_code": 200,
+    "response_request_id": "check-20261031T020537Z-check-0003",
+    "body": {
+      "order": {
+        "amount": 12.5,
+        "id": "dad729c5829946ad802d034797937b74",
+        "status": "cancelled",
+        "customer_tier": "premium",
+        "category": "books",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0003"
+    }
+  },
+  {
+    "case": "cancel_again",
+    "request_id": "check-20261031T020537Z-check-0004",
+    "at_utc": "2026-10-31T02:05:39.311780+00:00",
+    "expected_status": 409,
+    "status_code": 409,
+    "response_request_id": "check-20261031T020537Z-check-0004",
+    "body": {
+      "error": {
+        "type": "invalid_state",
+        "message": "El pedido ya est\u00e1 cancelado"
+      },
+      "request_id": "check-20261031T020537Z-check-0004"
+    }
+  },
+  {
+    "case": "invalid_amount",
+    "request_id": "check-20261031T020537Z-check-0005",
+    "at_utc": "2026-10-31T02:05:39.389864+00:00",
+    "expected_status": 400,
+    "status_code": 400,
+    "response_request_id": "check-20261031T020537Z-check-0005",
+    "body": {
+      "error": {
+        "type": "invalid_payload",
+        "message": "category, customer_tier o amount inv\u00e1lidos"
+      },
+      "request_id": "check-20261031T020537Z-check-0005"
+    }
+  },
+  {
+    "case": "malformed_json",
+    "request_id": "check-20261031T020537Z-check-0006",
+    "at_utc": "2026-10-31T02:05:39.468253+00:00",
+    "expected_status": 400,
+    "status_code": 400,
+    "response_request_id": "check-20261031T020537Z-check-0006",
+    "body": {
+      "error": {
+        "type": "invalid_payload",
+        "message": "Se requiere un objeto JSON"
+      },
+      "request_id": "check-20261031T020537Z-check-0006"
+    }
+  },
+  {
+    "case": "missing",
+    "request_id": "check-20261031T020537Z-check-0007",
+    "at_utc": "2026-10-31T02:05:39.586104+00:00",
+    "expected_status": 404,
+    "status_code": 404,
+    "response_request_id": "check-20261031T020537Z-check-0007",
+    "body": {
+      "error": {
+        "type": "not_found",
+        "message": "Pedido inexistente"
+      },
+      "request_id": "check-20261031T020537Z-check-0007"
+    }
+  },
+  {
+    "case": "unknown_route",
+    "request_id": "check-20261031T020537Z-check-0008",
+    "at_utc": "2026-10-31T02:05:39.704231+00:00",
+    "expected_status": 404,
+    "status_code": 404,
+    "response_request_id": "check-20261031T020537Z-check-0008",
+    "body": {
+      "error": {
+        "type": "not_found",
+        "message": "Ruta inexistente"
+      },
+      "request_id": "check-20261031T020537Z-check-0008"
+    }
+  },
+  {
+    "case": "wrong_method",
+    "request_id": "check-20261031T020537Z-check-0009",
+    "at_utc": "2026-10-31T02:05:39.781434+00:00",
+    "expected_status": 405,
+    "status_code": 405,
+    "response_request_id": "check-20261031T020537Z-check-0009",
+    "body": {
+      "error": {
+        "type": "method_not_allowed",
+        "message": "M\u00e9todo no permitido"
+      },
+      "request_id": "check-20261031T020537Z-check-0009"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0010",
+    "at_utc": "2026-10-31T02:05:40.075145+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0010",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "db5c566399ac4397a1a1adc0c366b879",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0010"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0011",
+    "at_utc": "2026-10-31T02:05:40.242966+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0011",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "13e0bf18158b4f87be4fcea19bf6d0ac",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0011"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0012",
+    "at_utc": "2026-10-31T02:05:40.395721+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0012",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "ba5bb06b87874ed4a219dccd10430a52",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0012"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0013",
+    "at_utc": "2026-10-31T02:05:40.675241+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0013",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "e238cb156a874839a1cc899943a8a28a",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0013"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0014",
+    "at_utc": "2026-10-31T02:05:40.862043+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0014",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "14c001558dcf467dbabd7ac8495eb12a",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0014"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0015",
+    "at_utc": "2026-10-31T02:05:40.990297+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0015",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "a2e4e61b18d949bf9ea887511d812efc",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0015"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0016",
+    "at_utc": "2026-10-31T02:05:41.095452+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0016",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "5c287198f7064273bb5aacec708f7c56",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0016"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0017",
+    "at_utc": "2026-10-31T02:05:41.202316+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0017",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "dbd7f50d5e0649858cd237d861ac9634",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0017"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0018",
+    "at_utc": "2026-10-31T02:05:41.317058+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0018",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "b6a92f8c0a074db3b0d87bc97a19ac10",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0018"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0019",
+    "at_utc": "2026-10-31T02:05:41.431186+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0019",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "26bd57c27578495d9ada0fdf2d84f91a",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0019"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0020",
+    "at_utc": "2026-10-31T02:05:41.558281+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0020",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "1814328e24a44e2ead6b0c3c0c3d0e7d",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0020"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0021",
+    "at_utc": "2026-10-31T02:05:41.670835+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0021",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "6d6efb820a704503a950e76cde012017",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0021"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0022",
+    "at_utc": "2026-10-31T02:05:41.801739+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0022",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "679e477df60d4a4ab588ab782d4e5f76",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0022"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0023",
+    "at_utc": "2026-10-31T02:05:41.949547+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0023",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "e8225270297d4a459d53e85daf72e56d",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0023"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0024",
+    "at_utc": "2026-10-31T02:05:42.048945+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0024",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "022f5e06422949bf8833b8b5f4a3eef4",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0024"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0025",
+    "at_utc": "2026-10-31T02:05:42.174726+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0025",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "2a865abae7c9407ab53924fb1a5d54d8",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0025"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0026",
+    "at_utc": "2026-10-31T02:05:42.318220+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0026",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "c4ce86ef7f4543f8aa85bb87eb8b1c69",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0026"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0027",
+    "at_utc": "2026-10-31T02:05:42.671034+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0027",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "04e4c12e209d4924984f136ce76e1b53",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0027"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0028",
+    "at_utc": "2026-10-31T02:05:42.763826+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0028",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "3dbaeab920ce44ce9504dad9f8e0cd87",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0028"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0029",
+    "at_utc": "2026-10-31T02:05:42.882087+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0029",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "45e728fbef6541369a9f2d68dac1b0ba",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0029"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0030",
+    "at_utc": "2026-10-31T02:05:43.013412+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0030",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "54275f17200447b09f845130e6ebfe7c",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0030"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0031",
+    "at_utc": "2026-10-31T02:05:43.132826+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0031",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "795b2d9fd0bc40ff98efe662fb2ee45e",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0031"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0032",
+    "at_utc": "2026-10-31T02:05:43.225743+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0032",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "6f698e95750b484b94017cfaa39e7c46",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0032"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0033",
+    "at_utc": "2026-10-31T02:05:43.319446+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0033",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "d76339d373a8447fa0aa4220863a8a13",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0033"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0034",
+    "at_utc": "2026-10-31T02:05:43.450460+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0034",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "fd26d91b45e44b7ca09bc1893b047b37",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0034"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0035",
+    "at_utc": "2026-10-31T02:05:43.543000+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0035",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "34a0a3b854674c34aacd363fa3bba00f",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0035"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0036",
+    "at_utc": "2026-10-31T02:05:43.641621+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0036",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "4e863f1574624313b2c75637cae47964",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0036"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0037",
+    "at_utc": "2026-10-31T02:05:43.739472+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0037",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "d0f21aac2d0f4fd4933f4247b01244be",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0037"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0038",
+    "at_utc": "2026-10-31T02:05:43.906346+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0038",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "0a9d64b6a4094a38963996f8243b3ec8",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0038"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0039",
+    "at_utc": "2026-10-31T02:05:44.002174+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0039",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "227a40975efe4b50b277f9b0dfd5068a",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0039"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0040",
+    "at_utc": "2026-10-31T02:05:44.098106+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0040",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "090eaed766f94bde8c4b220456b79419",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0040"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0041",
+    "at_utc": "2026-10-31T02:05:44.253300+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0041",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "3575a101679247dd8e3502ef33fb830a",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0041"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0042",
+    "at_utc": "2026-10-31T02:05:44.373312+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0042",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "bb2b801637d1452fb8282593db58115c",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0042"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0043",
+    "at_utc": "2026-10-31T02:05:44.464163+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0043",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "61c4fc58b9cc43eb86815526cc6774b7",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0043"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0044",
+    "at_utc": "2026-10-31T02:05:44.555716+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0044",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "77bd251d529541bdbd07fbc9a5f7ea7f",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0044"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0045",
+    "at_utc": "2026-10-31T02:05:44.647758+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0045",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "c25ac7ce30834e2fa41a887286280e58",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0045"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0046",
+    "at_utc": "2026-10-31T02:05:44.741814+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0046",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "32941adde71045239cda87de883905d8",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0046"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0047",
+    "at_utc": "2026-10-31T02:05:44.836773+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0047",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "42898fe8fac645a99b6b1ff79afb9d7c",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0047"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0048",
+    "at_utc": "2026-10-31T02:05:44.938007+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0048",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "edd331023022469c99c5659eff9eff2c",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0048"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0049",
+    "at_utc": "2026-10-31T02:05:45.034213+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0049",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "f6a883bea2434aaf93ba68670876ef74",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0049"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0050",
+    "at_utc": "2026-10-31T02:05:45.158283+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0050",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "b89277aad4e24f589b2b9823a6dcba35",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0050"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0051",
+    "at_utc": "2026-10-31T02:05:45.252391+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0051",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "a160d86fffac455090d2af4a7bf642c4",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0051"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0052",
+    "at_utc": "2026-10-31T02:05:45.345778+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0052",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "39ce6a6477234deaa8c2ffa0b3905993",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0052"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0053",
+    "at_utc": "2026-10-31T02:05:45.436950+00:00",
+    "expected_status": 201,
+    "status_code": 500,
+    "response_request_id": "check-20261031T020537Z-check-0053",
+    "body": {
+      "error": {
+        "type": "simulated_failure",
+        "message": "Falla simulada"
+      },
+      "request_id": "check-20261031T020537Z-check-0053"
+    }
+  },
+  {
+    "case": "probe_simulated_failure",
+    "request_id": "check-20261031T020537Z-check-0054",
+    "at_utc": "2026-10-31T02:05:45.534789+00:00",
+    "expected_status": 201,
+    "status_code": 201,
+    "response_request_id": "check-20261031T020537Z-check-0054",
+    "body": {
+      "order": {
+        "category": "books",
+        "customer_tier": "premium",
+        "amount": 12.5,
+        "id": "c02478d8d84b4ad88e5295f2b461e3f7",
+        "status": "created",
+        "run_id": "check-20261031T020537Z"
+      },
+      "request_id": "check-20261031T020537Z-check-0054"
+    }
+  }
+]

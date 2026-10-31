@@ -1,0 +1,11 @@
+{
+  "target_url": "https://orders-api-gfr6cqd5yq-uc.a.run.app",
+  "n_requests": 60,
+  "mu_min": 30,
+  "sigma_min": 10,
+  "invalid_share": 0.3,
+  "seed": 42,
+  "scenarios": [
+    {"start_min": 35, "end_min": 45, "effect": "double_errors", "category": "electronics"}
+  ]
+}

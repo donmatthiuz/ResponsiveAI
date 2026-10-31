@@ -1,0 +1,41 @@
+[
+  {
+    "insertId": "6ae54cf90005d1287eeae156",
+    "jsonPayload": {
+      "amount": 12.5,
+      "category": "books",
+      "customer_tier": "premium",
+      "endpoint": "POST /orders",
+      "error_type": "simulated_failure",
+      "latency_ms": 0.128,
+      "message": "request_completed",
+      "outcome": "server_error",
+      "phase": "traffic",
+      "request_id": "check-20261031T020537Z-check-0053",
+      "run_id": "check-20261031T020537Z",
+      "status_code": 500
+    },
+    "labels": {
+      "execution_id": "o2dIz5aHjExG",
+      "goog-managed-by": "cloudfunctions",
+      "goog-terraform-provisioned": "true",
+      "instanceId": "00e8a408bdd95b5d7750d665a24d7b6f1901de5d7cd9f05ea30479222480d5f0b0ce36655728c2cef84565bd375668e281c028c1eefdde205e3ff20bb9e79e12b2663bc72673431a31d7fb04c6b2969aa51a5ed84a9b1648cc13",
+      "lab": "observable-api",
+      "run.googleapis.com/base_image_versions": "us-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/python313:python313_20261022_3_13_15_RC00"
+    },
+    "logName": "projects/adfasdfasfd-1899a/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-10-31T02:05:45.405996318Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "orders-api",
+        "location": "us-central1",
+        "project_id": "adfasdfasfd-1899a",
+        "revision_name": "orders-api-00001-laq",
+        "service_name": "orders-api"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-10-31T02:05:45.381224Z"
+  }
+]

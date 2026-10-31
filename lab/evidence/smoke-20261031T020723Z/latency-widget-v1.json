@@ -1,0 +1,100 @@
+{
+  "title": "Latencia por segmento / operación · SQL",
+  "xyChart": {
+    "dataSets": [
+      {
+        "timeSeriesQuery": {
+          "opsAnalyticsQuery": {
+            "sql": "WITH events AS (\n  SELECT TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n    COALESCE(JSON_VALUE(json_payload.customer_tier), 'unknown') AS customer_tier,\n    COALESCE(JSON_VALUE(json_payload.endpoint), 'unknown') AS endpoint,\n    SAFE_CAST(JSON_VALUE(json_payload.latency_ms) AS FLOAT64) AS latency_ms\n  FROM `adfasdfasfd-1899a.global._Default._Default`\n  WHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z') AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n    AND resource.type = 'cloud_run_revision'\n    AND JSON_VALUE(resource.labels.service_name) = 'orders-api'\n    AND JSON_VALUE(json_payload.message) = 'request_completed'\n    AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n    AND JSON_VALUE(json_payload.phase) = 'traffic'\n)\nSELECT minute, customer_tier, endpoint, COUNT(*) AS requests,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(50)] AS p50_ms,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(95)] AS p95_ms\nFROM events\nWHERE latency_ms IS NOT NULL\nGROUP BY minute, customer_tier, endpoint\nORDER BY minute, customer_tier, endpoint\n"
+          }
+        },
+        "plotType": "LINE",
+        "targetAxis": "Y1",
+        "dimensions": [
+          {
+            "column": "minute",
+            "sortOrder": "SORT_ORDER_NONE",
+            "sortColumn": "minute",
+            "columnType": "TIMESTAMP"
+          }
+        ],
+        "measures": [
+          {
+            "column": "p50_ms",
+            "aggregationFunction": {
+              "type": "none"
+            }
+          }
+        ],
+        "breakdowns": [
+          {
+            "column": "customer_tier",
+            "limit": 5,
+            "aggregationFunction": {
+              "type": "count"
+            },
+            "sortOrder": "SORT_ORDER_DESCENDING"
+          },
+          {
+            "column": "endpoint",
+            "limit": 20,
+            "aggregationFunction": {
+              "type": "count"
+            },
+            "sortOrder": "SORT_ORDER_DESCENDING"
+          }
+        ]
+      },
+      {
+        "timeSeriesQuery": {
+          "opsAnalyticsQuery": {
+            "sql": "WITH events AS (\n  SELECT TIMESTAMP_TRUNC(timestamp, MINUTE) AS minute,\n    COALESCE(JSON_VALUE(json_payload.customer_tier), 'unknown') AS customer_tier,\n    COALESCE(JSON_VALUE(json_payload.endpoint), 'unknown') AS endpoint,\n    SAFE_CAST(JSON_VALUE(json_payload.latency_ms) AS FLOAT64) AS latency_ms\n  FROM `adfasdfasfd-1899a.global._Default._Default`\n  WHERE timestamp >= TIMESTAMP('2026-10-31T02:07:27.947662Z') AND timestamp < TIMESTAMP('2026-10-31T02:07:35.148179Z')\n    AND resource.type = 'cloud_run_revision'\n    AND JSON_VALUE(resource.labels.service_name) = 'orders-api'\n    AND JSON_VALUE(json_payload.message) = 'request_completed'\n    AND JSON_VALUE(json_payload.run_id) = 'smoke-20261031T020723Z'\n    AND JSON_VALUE(json_payload.phase) = 'traffic'\n)\nSELECT minute, customer_tier, endpoint, COUNT(*) AS requests,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(50)] AS p50_ms,\n  APPROX_QUANTILES(latency_ms, 100)[OFFSET(95)] AS p95_ms\nFROM events\nWHERE latency_ms IS NOT NULL\nGROUP BY minute, customer_tier, endpoint\nORDER BY minute, customer_tier, endpoint\n"
+          }
+        },
+        "plotType": "LINE",
+        "targetAxis": "Y1",
+        "dimensions": [
+          {
+            "column": "minute",
+            "sortOrder": "SORT_ORDER_NONE",
+            "sortColumn": "minute",
+            "columnType": "TIMESTAMP"
+          }
+        ],
+        "measures": [
+          {
+            "column": "p95_ms",
+            "aggregationFunction": {
+              "type": "none"
+            }
+          }
+        ],
+        "breakdowns": [
+          {
+            "column": "customer_tier",
+            "limit": 5,
+            "aggregationFunction": {
+              "type": "count"
+            },
+            "sortOrder": "SORT_ORDER_DESCENDING"
+          },
+          {
+            "column": "endpoint",
+            "limit": 20,
+            "aggregationFunction": {
+              "type": "count"
+            },
+            "sortOrder": "SORT_ORDER_DESCENDING"
+          }
+        ]
+      }
+    ],
+    "yAxis": {
+      "label": "ms",
+      "scale": "LINEAR"
+    },
+    "chartOptions": {
+      "mode": "COLOR"
+    }
+  }
+}

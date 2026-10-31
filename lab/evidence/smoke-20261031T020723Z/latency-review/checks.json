@@ -1,0 +1,18 @@
+{
+  "scope": "local_latency_chart_proposal",
+  "reason": "El SQL original de errores ya funciona; latencia seguía sin series. Se transforma a una sola medida y un desglose con ambas series p50/p95.",
+  "local_pytest_passed": 5,
+  "rest_dashboard_schema": "passed",
+  "cloud_sql_executed": false,
+  "cloud_apply_by_agent": false,
+  "preserved_widgets": 9,
+  "latency_series_limit": 100,
+  "query_for_review": "latency_by_tier.sql",
+  "source_hashes": {
+    "observability/dashboard.json": "5ebef6595e273e567d0b5c6d6d0d05f620e8d00365e7f494b4de747cca2bd830",
+    "observability/dashboard.smoke-review.json": "694e23f9ae4d1a3f82be685f3fb75fd6138c03d40dfcc9db9a933d83fde41f44",
+    "observability/queries/latency_by_tier.sql": "4bac419599edcd211c6a3567a2374809509ae14b76ed7ea4fdd0cc51b9885b6a",
+    "scripts/render_observability.py": "8ff11278561f2db4bcf0b2f443eaa3cf56950298908472361499b7daa9ba354d",
+    "tests/test_observability.py": "3352e86ea3a2ca1d8b0c7baf3e937a52766218c5634ee969629c0b661072ae8a"
+  }
+}
