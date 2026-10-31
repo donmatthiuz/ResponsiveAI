@@ -1,0 +1,39 @@
+{
+  "metric_start_utc": "2026-10-31T03:01:00Z",
+  "metric_end_utc": "2026-10-31T04:02:00Z",
+  "counts": {
+    "native_count": {
+      "official": {
+        "2xx": 5360,
+        "4xx": 526,
+        "5xx": 114
+      },
+      "official_total": 6000,
+      "preparation": {
+        "2xx": 1125,
+        "5xx": 29
+      },
+      "preparation_total": 1154
+    },
+    "log_count": {
+      "official": {
+        "client_error": 526,
+        "server_error": 114,
+        "success": 5360
+      },
+      "official_total": 6000,
+      "preparation": {
+        "success": 1125,
+        "server_error": 29,
+        "client_error": 0
+      },
+      "preparation_total": 1154
+    }
+  },
+  "distribution_samples": {
+    "native_latency": 6006,
+    "log_latency": 6000
+  },
+  "dashboard_sql_queries": 3,
+  "all_dashboard_sql_use_official_run": true
+}

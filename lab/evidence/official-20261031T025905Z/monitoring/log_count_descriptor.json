@@ -1,0 +1,28 @@
+{
+  "name": "projects/adfasdfasfd-1899a/metricDescriptors/logging.googleapis.com/user/lab_request_completed_count",
+  "labels": [
+    {
+      "key": "endpoint"
+    },
+    {
+      "key": "customer_tier"
+    },
+    {
+      "key": "log"
+    },
+    {
+      "key": "category"
+    },
+    {
+      "key": "outcome"
+    }
+  ],
+  "metricKind": "DELTA",
+  "valueType": "INT64",
+  "unit": "1",
+  "description": "Un evento request_completed por solicitud; sin IDs de alta cardinalidad.",
+  "type": "logging.googleapis.com/user/lab_request_completed_count",
+  "monitoredResourceTypes": [
+    "cloud_run_revision"
+  ]
+}

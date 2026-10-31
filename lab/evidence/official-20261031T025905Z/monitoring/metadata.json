@@ -1,0 +1,35 @@
+{
+  "exported_at_utc": "2026-10-31T05:33:09.040981Z",
+  "project": "adfasdfasfd-1899a",
+  "service": "orders-api",
+  "region": "us-central1",
+  "run_id": "official-20261031T025905Z",
+  "measured_start_utc": "2026-10-31T03:01:22.409460Z",
+  "measured_finish_utc": "2026-10-31T04:01:22.415622Z",
+  "metric_start_utc": "2026-10-31T03:01:00Z",
+  "metric_end_utc": "2026-10-31T04:02:00Z",
+  "comparison_start_utc": "2026-10-31T02:58:00Z",
+  "metrics": [
+    {
+      "name": "native_count",
+      "series": 6,
+      "unit": "1"
+    },
+    {
+      "name": "native_latency",
+      "series": 6,
+      "unit": "ms"
+    },
+    {
+      "name": "log_count",
+      "series": 53,
+      "unit": "1"
+    },
+    {
+      "name": "log_latency",
+      "series": 6,
+      "unit": "ms"
+    }
+  ],
+  "note": "Contadores sin run_id: contrastar con logs y ventana. Inicio/fin redondeados para incluir bins completos de un minuto; el intervalo previo solo identifica preparaci\u00f3n."
+}

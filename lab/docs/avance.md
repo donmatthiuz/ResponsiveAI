@@ -10,8 +10,8 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 | 4 Infraestructura | validado | Proyecto adfasdfasfd-1899a confirmado; login/ADC; plan real y apply completados tras un reintento del build |
 | 5 Observabilidad | validado | Capturas del usuario confirman las cuatro fuentes, incluidos errores SQL y latencia SQL p50/p95 tras el segundo ajuste |
 | 6 Smoke GCP | validado | Contrato HTTP aprobado, 500 artificial correlacionado, 60/60 intentos y logs, SQL de latencia ejecutado con valores y gráfico visible |
-| 7 Hora oficial | en curso | official-20261031T025905Z:1119 recursos preparados; escala1; t0=2026-10-31T03:01:22.409460Z, fin previsto04:01:22.409460Z; aún sin resumen final |
-| 8 Análisis | en curso | Informe de smoke GCP generado y correlación 60/60 sin discrepancias; faltan datos de la hora oficial |
+| 7 Hora oficial | validado | official-20261031T025905Z: 6000 programados/enviados/completados, 3600.006 s, escala 1, 6000 respuestas y cero errores de transporte |
+| 8 Análisis | validado | Reporte en README raíz, 4 capturas, 3 figuras y datos reales de Monitoring. Contadores CSV/logs/nativo/usuario coinciden en 6000; diferencia de 6 muestras de latencia nativa documentada |
 | 9 Cierre | pendiente | Recursos GCP activos; destruir solamente después de preservar evidencia oficial |
 
 ## Criterios de aceptación
@@ -25,9 +25,9 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 - [x] Pruebas locales y validación Terraform; resultados en `evidence/local-validation/checks.json`.
 - [x] Función desplegada y outputs obtenidos; URL invocada y vista Analytics consultada con éxito.
 - [x] Métricas existentes antes del primer tráfico GCP: createTime 2026-10-31T02:02:58/59Z, archivos en evidence/gcp-setup/.
-- [ ] Una ventana real de 3600 s con 6000 intentos: en curso; esperar summary.json para verificar completitud y conteos.
-- [x] Dashboard único con las cuatro fuentes visibles en el smoke: incluye ambos SQL originales y logs; falta retarget y evidencia de la hora oficial.
-- [ ] Evidencia oficial de una hora: ya hay JSON y 60 logs del smoke GCP; falta la corrida oficial, captura final y su análisis.
+- [x] Una ventana real de 3600 s y 6000 intentos: summary.json completo y CSV con 6000 IDs únicos, todos dentro de la ventana.
+- [x] Dashboard único con las cuatro fuentes: filtros SQL oficiales aplicados, JSON final exportado y capturas guardadas.
+- [x] Evidencia oficial: configuración, CSV, resumen, 6000 logs, métricas reales, SQL, capturas y análisis en README.
 - [ ] Limpieza de GCP verificada: infraestructura activa y cierre pendiente.
 
 ## Despliegue y corrección de SQL en curso
@@ -44,6 +44,14 @@ Las evidencias locales y el smoke acelerado no acreditan una hora real. Ya exist
 
 La implementación y el smoke no equivalen al laboratorio completo. Se continúa paso a paso con el usuario; [pasos_gcp.md](pasos_gcp.md) documenta el procedimiento general.
 
-## Hora oficial en curso
+## Hora oficial completada
 
-Corrida `official-20261031T025905Z`, preparación completa de1119 recursos, quietud120 s y escala1. Inicio medido:30 de octubre21:01:22 (Guatemala, UTC−6); fin previsto de envíos:22:01:22. Se verificó el calendario y se observaron las primeras filas CSV. No se acredita la hora completa ni los6000 intentos hasta revisar el resumen final. El manifiesto de fuentes previo se copió al directorio de evidencia de esa corrida.
+Corrida `official-20261031T025905Z`, preparación de 1119 recursos, quietud 120 s y escala 1. Inicio: 30 de octubre 21:01:22 y fin 22:01:22 (Guatemala, UTC−6). Se verificaron resumen completo, 3600.006 s y 6000 filas/IDs únicos. Los 6000 logs se emparejan sin duplicados ni discrepancias de código: 5360 respuestas 2xx, 526 respuestas 4xx y 114 respuestas 5xx; todos los 5xx son simulated_failure, sin internal_error ni errores de transporte.
+
+La tasa 4xx de electronics fue 126/1555=8.10 % fuera del escenario y 71/459=15.47 % dentro de [35,45). El usuario aplicó el dashboard con todos los SQL oficiales. El JSON final se exportó nuevamente y se guardaron las cuatro capturas. Los datos completos están en analysis.json y el análisis principal en el README raíz.
+
+Por corrección explícita del usuario, el formato final es el README raíz, con encabezado «Mathew Alexander Cordero Aquino - 22982» y enlace a la rama labmonitoring. No se genera PDF del reporte. El cierre de GCP sigue pendiente.
+
+## Conciliación de fuentes y calidad de evidencia
+
+Monitoring confirma 6000 solicitudes nativas y 6000 finalizaciones de la métrica de logs, separadas de 1154 intentos preparatorios. Ambas fuentes coinciden en clases HTTP con el CSV. La distribución nativa de latencia reporta 6006 muestras; se conserva la diferencia de 6 y no se interpreta como intentos adicionales. La distribución de logs tiene 6000 muestras. El README explica los bins de un minuto, el pico preparatorio de las capturas y la causa no aislada de esa diferencia de distribución. Los archivos están en monitoring/reconciliation.json y report-data.json de la corrida.

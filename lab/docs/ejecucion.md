@@ -89,10 +89,10 @@ cd lab
 | Señales reales | Gráficas nativas y métricas de logs y panel de logs comprobados por el usuario; Analytics devuelve 60 eventos |
 | Dashboard | projects/248394644314/dashboards/9e847e3b-cd26-45f6-9cdf-de9c34ffbf93, nueve widgets tras añadir la gráfica manual de errores |
 | SQL errores | Tres filas, books 20/0.35, clothing 18/0.2777778, electronics 22/0.5; gráfica manual visible en el dashboard |
-| Reparación de SQL | Aplicada y comprobada por el usuario: errores y latencia p50/p95 visibles; nueva exportación final del dashboard pendiente |
-| Hora oficial de6000 intentos /3600 s | En curso:official-20261031T025905Z; t0=2026-10-31T03:01:22.409460Z; fin de envíos previsto04:01:22.409460Z; resumen final pendiente |
-| Exportación/captura | JSON real y 60 logs exportados; falta captura final y exportación tras validar todos los paneles |
-| Análisis con métricas nativas y SQL ejecutado | Pendiente |
+| Reparación de SQL | Aplicada y comprobada: errores y latencia p50/p95 visibles; JSON final exportado con las tres consultas SQL filtradas a la corrida oficial |
+| Hora oficial de 6000 intentos / 3600 s | Completada: official-20261031T025905Z; inicio 03:01:22.409460Z; fin 04:01:22.415622Z; duración 3600.006192 s; 6000 intentos y respuestas |
+| Exportación/captura | 6000 logs, dashboard final, cuatro capturas y series/descriptores de Monitoring guardados |
+| Análisis con métricas nativas y SQL ejecutado | README raíz completado; tres figuras reproducibles y conciliación de cuatro fuentes; seis muestras nativas adicionales documentadas |
 | Terraform destroy | Pendiente al finalizar análisis oficial y guardar evidencia; recursos reales activos |
 | Limpieza local | Se cierran los procesos de pruebas; evidencia y entorno virtual se conservan |
 
@@ -100,6 +100,8 @@ El primer build falló al leer el bucket de staging a pesar del rol objectViewer
 
 La exportación del dashboard permitió comparar la gráfica SQL manual que el usuario confirmó con las originales. Se adoptaron sus parámetros de dimensión y desglose (límite positivo, selección count y orden descendente). Después se migró la latencia a una sola medida y un solo desglose que incorpora segmento/operación/percentil. El usuario ejecutó la consulta en Analytics, aplicó el cambio y confirmó por captura que ambos paneles muestran datos. Se conserva la gráfica manual como referencia. Cinco pruebas locales de observabilidad pasan, incluida la migración de exportaciones previas.
 
-Configuración previa a la hora oficial comprobada: URL real,6000 solicitudes, μ30,σ10,semilla42,invalid_share0.08, electronics [35,45). El usuario inició el simulador con escala1 y systemd-inhibit. Se comprobaron1119 recursos preparados,120 s de quietud y el calendario de3600 s. La ventana es2026-10-31T03:01:22.409460Z a04:01:22.409460Z (30 de octubre21:01:22 a22:01:22 en Guatemala); el drenado puede extender el proceso. El manifiesto de fuentes previo se conserva en `evidence/pre-official/manifest.json` y en el directorio de la corrida. Se observaron las primeras filas CSV, pero summary.json todavía no existe; completitud y conteos finales pendientes.
+Configuración oficial: URL real, 6000 solicitudes, μ30, σ10, semilla42, invalid_share0.08, electronics [35,45). El usuario ejecutó el simulador con escala1 y systemd-inhibit. Se comprobaron 1119 recursos preparados, 120 s de quietud y una ventana de 3600 s. Inicio 2026-10-31T03:01:22.409460Z y fin 04:01:22.415622Z (30 de octubre 21:01:22 a22:01:22 en Guatemala). Se validaron summary.json completo, 6000 filas/IDs únicos sin transporte y 6000 logs con códigos coincidentes. Los 114 eventos 5xx son artificiales. Cliente: p50=110.312 ms, p95=248.941 ms, p99=554.284 ms; despacho p95=1.954 ms. Manifiesto de fuentes, capturas y reporte en README conservados. Falta el cierre.
 
-No se puede declarar el laboratorio completo mientras la hora oficial, la observabilidad completa, el análisis y el cierre sigan pendientes. Los pasos concretos para el usuario están en `pasos_gcp.md`.
+La exportación adicional de Monitoring delimita bins de 03:01 a04:02 UTC. Los contadores nativo y de logs coinciden con las 6000 filas; el intervalo previo contiene 1154 intentos preparatorios, coherentes con preparation.jsonl. La distribución nativa tiene 6006 muestras frente a6000 de la distribución de logs: se mantiene esa discrepancia sin adjudicar una causa no demostrada. El reporte utiliza los logs individuales para los percentiles globales del backend.
+
+El usuario cambió el formato solicitado de PDF a README. El reporte final está en `../../README.md`, con su nombre/carné, repositorio, análisis de las cinco preguntas, capturas y figuras. El laboratorio no se declara cerrado mientras falten destrucción y verificación de residuos.

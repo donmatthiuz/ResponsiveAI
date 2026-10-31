@@ -1,0 +1,215 @@
+{
+  "run_id": "official-20261031T025905Z",
+  "execution_kind": "one_hour_execution",
+  "status": "complete",
+  "attempts": 6000,
+  "http_classes": {
+    "4xx": 526,
+    "2xx": 5360,
+    "5xx": 114
+  },
+  "http_class_shares_attempts": {
+    "4xx": 0.08766666666666667,
+    "2xx": 0.8933333333333333,
+    "5xx": 0.019
+  },
+  "intentions": {
+    "invalid_state": 184,
+    "valid": 5474,
+    "not_found": 181,
+    "invalid_payload": 161
+  },
+  "requests_by_scheduled_minute": {
+    "0": 5,
+    "1": 4,
+    "2": 10,
+    "3": 8,
+    "4": 6,
+    "5": 10,
+    "6": 19,
+    "7": 20,
+    "8": 28,
+    "9": 24,
+    "10": 34,
+    "11": 56,
+    "12": 59,
+    "13": 57,
+    "14": 77,
+    "15": 90,
+    "16": 99,
+    "17": 87,
+    "18": 115,
+    "19": 150,
+    "20": 155,
+    "21": 170,
+    "22": 174,
+    "23": 208,
+    "24": 174,
+    "25": 208,
+    "26": 227,
+    "27": 224,
+    "28": 222,
+    "29": 256,
+    "30": 263,
+    "31": 216,
+    "32": 248,
+    "33": 274,
+    "34": 231,
+    "35": 207,
+    "36": 180,
+    "37": 197,
+    "38": 166,
+    "39": 133,
+    "40": 127,
+    "41": 128,
+    "42": 95,
+    "43": 86,
+    "44": 94,
+    "45": 61,
+    "46": 59,
+    "47": 53,
+    "48": 39,
+    "49": 42,
+    "50": 28,
+    "51": 14,
+    "52": 21,
+    "53": 14,
+    "54": 16,
+    "55": 10,
+    "56": 4,
+    "57": 7,
+    "58": 7,
+    "59": 4
+  },
+  "category_rates": [
+    {
+      "category": "books",
+      "period": "baseline",
+      "attempts": 1495,
+      "http_responses": 1495,
+      "intended_invalid": 124,
+      "intended_invalid_rate": 0.08294314381270904,
+      "client_errors": 124,
+      "client_error_rate_http": 0.08294314381270904
+    },
+    {
+      "category": "books",
+      "period": "scenario_window",
+      "attempts": 521,
+      "http_responses": 521,
+      "intended_invalid": 39,
+      "intended_invalid_rate": 0.07485604606525911,
+      "client_errors": 39,
+      "client_error_rate_http": 0.07485604606525911
+    },
+    {
+      "category": "clothing",
+      "period": "baseline",
+      "attempts": 1537,
+      "http_responses": 1537,
+      "intended_invalid": 113,
+      "intended_invalid_rate": 0.07351984385165908,
+      "client_errors": 113,
+      "client_error_rate_http": 0.07351984385165908
+    },
+    {
+      "category": "clothing",
+      "period": "scenario_window",
+      "attempts": 433,
+      "http_responses": 433,
+      "intended_invalid": 53,
+      "intended_invalid_rate": 0.12240184757505773,
+      "client_errors": 53,
+      "client_error_rate_http": 0.12240184757505773
+    },
+    {
+      "category": "electronics",
+      "period": "baseline",
+      "attempts": 1555,
+      "http_responses": 1555,
+      "intended_invalid": 126,
+      "intended_invalid_rate": 0.08102893890675242,
+      "client_errors": 126,
+      "client_error_rate_http": 0.08102893890675242
+    },
+    {
+      "category": "electronics",
+      "period": "scenario_window",
+      "attempts": 459,
+      "http_responses": 459,
+      "intended_invalid": 71,
+      "intended_invalid_rate": 0.15468409586056645,
+      "client_errors": 71,
+      "client_error_rate_http": 0.15468409586056645
+    }
+  ],
+  "client_latency_by_operation_tier": {
+    "cancel / premium": {
+      "p50": 130.39,
+      "p95": 271.413
+    },
+    "cancel / standard": {
+      "p50": 131.678,
+      "p95": 276.171
+    },
+    "create / premium": {
+      "p50": 103.131,
+      "p95": 246.229
+    },
+    "create / standard": {
+      "p50": 103.58,
+      "p95": 239.933
+    },
+    "get / premium": {
+      "p50": 96.603,
+      "p95": 232.323
+    },
+    "get / standard": {
+      "p50": 96.536,
+      "p95": 225.365
+    }
+  },
+  "backend_latency_by_endpoint_tier": {
+    "GET /orders/{id} / premium": {
+      "p50": 9.038,
+      "p95": 22.473
+    },
+    "GET /orders/{id} / standard": {
+      "p50": 8.899,
+      "p95": 25.125
+    },
+    "POST /orders / premium": {
+      "p50": 17.82,
+      "p95": 36.318
+    },
+    "POST /orders / standard": {
+      "p50": 17.675,
+      "p95": 38.259
+    },
+    "POST /orders/{id}/cancel / premium": {
+      "p50": 41.292,
+      "p95": 90.271
+    },
+    "POST /orders/{id}/cancel / standard": {
+      "p50": 41.904,
+      "p95": 102.709
+    }
+  },
+  "logs": {
+    "provided": true,
+    "events_for_run": 6000,
+    "paired_requests": 6000,
+    "duplicate_ids": 0,
+    "status_mismatches": [],
+    "error_types": {
+      "invalid_state": 184,
+      "simulated_failure": 114,
+      "not_found": 181,
+      "invalid_payload": 161
+    }
+  },
+  "dispatch_delay_ms": {
+    "p50": 0.86,
+    "p95": 1.954
+  }
+}

@@ -2,7 +2,7 @@
 
 Implementación del PDF original, conservado en la raíz del repositorio. La entrega está en `lab/`; la interfaz es un dashboard de Cloud Monitoring.
 
-**Estado:** implementación local y despliegue GCP validados. Smoke GCP de 60 intentos y logs correlacionados; se está ajustando la configuración de los paneles SQL. La hora oficial y la limpieza siguen pendientes. Consulta [avance](docs/avance.md), [evidencia de ejecución](docs/ejecucion.md) y la [guía paso a paso de GCP](docs/pasos_gcp.md).
+**Estado:** implementación, despliegue y hora oficial de 6000 intentos verificados, con 6000 logs correlacionados. El [reporte principal está en el README de la raíz](../README.md), con análisis, capturas y conciliación de métricas. La limpieza de GCP sigue pendiente. Consulta [avance](docs/avance.md), [evidencia de ejecución](docs/ejecucion.md) y la [guía paso a paso de GCP](docs/pasos_gcp.md).
 
 ## Preparación local
 

@@ -1,10 +1,17 @@
 {
   "run_id": "official-20261031T025905Z",
-  "status": "running",
+  "status": "complete",
   "preparation_confirmed_resources": 1119,
   "window_start_utc": "2026-10-31T03:01:22.409460+00:00",
   "expected_window_end_utc": "2026-10-31T04:01:22.409460+00:00",
   "timezone": "America/Guatemala",
-  "complete_run_verified": false,
-  "note": "Metadata de seguimiento; el resultado final lo determina summary.json generado por el simulador."
+  "complete_run_verified": true,
+  "note": "Resultado confirmado con summary.json, 6000 filas CSV y 6000 eventos correlacionados. Capturas y cierre pendientes.",
+  "actual_finished_at_utc": "2026-10-31T04:01:22.415622+00:00",
+  "elapsed_s": 3600.0061920189983,
+  "programmed": 6000,
+  "sent": 6000,
+  "completed": 6000,
+  "application_events": 6000,
+  "paired_request_ids": 6000
 }

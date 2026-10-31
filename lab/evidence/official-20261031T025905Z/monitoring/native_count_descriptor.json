@@ -1,0 +1,36 @@
+{
+  "name": "projects/adfasdfasfd-1899a/metricDescriptors/run.googleapis.com/request_count",
+  "labels": [
+    {
+      "key": "response_code",
+      "description": "Response code of a request."
+    },
+    {
+      "key": "response_code_class",
+      "description": "Response code class of a request."
+    },
+    {
+      "key": "route",
+      "description": "Always empty."
+    }
+  ],
+  "metricKind": "DELTA",
+  "valueType": "INT64",
+  "unit": "1",
+  "description": "Number of requests reaching the revision. Excludes requests that are not reaching your container instances (for example, unauthorized requests or when maximum number of instances is reached). Captured at the end of the request lifecycle.",
+  "displayName": "Request Count",
+  "type": "run.googleapis.com/request_count",
+  "metadata": {
+    "launchStage": "GA",
+    "samplePeriod": "60s",
+    "ingestDelay": "120s",
+    "timeSeriesResourceHierarchyLevel": [
+      "PROJECT"
+    ]
+  },
+  "launchStage": "GA",
+  "monitoredResourceTypes": [
+    "cloud_run_instance",
+    "cloud_run_revision"
+  ]
+}

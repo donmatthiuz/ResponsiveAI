@@ -1,0 +1,134 @@
+{
+  "correlation_example_csv": {
+    "run_id": "official-20261031T025905Z",
+    "request_id": "official-20261031T025905Z-request-005514",
+    "scheduled_at_utc": "2026-10-31T03:45:09.051202+00:00",
+    "scheduled_offset_s": "2626.6417417648463",
+    "sent_at_utc": "2026-10-31T03:45:09.051614+00:00",
+    "dispatch_delay_ms": "0.41419615627091844",
+    "operation": "get",
+    "intended_event": "valid",
+    "expected_status_code": "200",
+    "status_code": "500",
+    "client_latency_ms": "106.55641899938928",
+    "transport_error": "",
+    "category": "books",
+    "customer_tier": "premium",
+    "scenario": "baseline"
+  },
+  "correlation_example_log": {
+    "insertId": "6ae56445000214fe9a104a45",
+    "jsonPayload": {
+      "amount": 313.04,
+      "category": "books",
+      "customer_tier": "premium",
+      "endpoint": "GET /orders/{id}",
+      "error_type": "simulated_failure",
+      "latency_ms": 20.893,
+      "message": "request_completed",
+      "outcome": "server_error",
+      "phase": "traffic",
+      "request_id": "official-20261031T025905Z-request-005514",
+      "run_id": "official-20261031T025905Z",
+      "status_code": 500
+    },
+    "labels": {
+      "execution_id": "epxVAgj4MIVm",
+      "goog-managed-by": "cloudfunctions",
+      "goog-terraform-provisioned": "true",
+      "instanceId": "00e8a408bd52b20cf8a457352b1877b5741fd6c03bbdc1cecfb8f95f5b0ab04dfc032151b106acf22921ef9ce682b44e9f8859153121226cfa7fc59d2276f67e5e6141697274f83e5d10c1c68ca929ed694ff22b9e4f3246",
+      "lab": "observable-api",
+      "run.googleapis.com/base_image_versions": "us-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/python313:python313_20261022_3_13_15_RC00"
+    },
+    "logName": "projects/adfasdfasfd-1899a/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-10-31T03:45:09.415141050Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "orders-api",
+        "location": "us-central1",
+        "project_id": "adfasdfasfd-1899a",
+        "revision_name": "orders-api-00001-laq",
+        "service_name": "orders-api"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "ERROR",
+    "timestamp": "2026-10-31T03:45:09.136446Z"
+  },
+  "http_examples": {
+    "409": {
+      "request_id": "official-20261031T025905Z-request-000000",
+      "intended_event": "invalid_state",
+      "expected": "409",
+      "observed": "409"
+    },
+    "201": {
+      "request_id": "official-20261031T025905Z-request-000001",
+      "intended_event": "valid",
+      "expected": "201",
+      "observed": "201"
+    },
+    "200": {
+      "request_id": "official-20261031T025905Z-request-000002",
+      "intended_event": "valid",
+      "expected": "200",
+      "observed": "200"
+    },
+    "500": {
+      "request_id": "official-20261031T025905Z-request-000009",
+      "intended_event": "valid",
+      "expected": "200",
+      "observed": "500"
+    },
+    "404": {
+      "request_id": "official-20261031T025905Z-request-000023",
+      "intended_event": "not_found",
+      "expected": "404",
+      "observed": "404"
+    },
+    "400": {
+      "request_id": "official-20261031T025905Z-request-000076",
+      "intended_event": "invalid_payload",
+      "expected": "400",
+      "observed": "400"
+    }
+  },
+  "backend_percentiles_ms": {
+    "p50": 16.855,
+    "p95": 57.82920000000003,
+    "p99": 110.55804000000016
+  },
+  "backend_instances": 9,
+  "scheduled_mean_min": 29.90607098742907,
+  "scheduled_std_min": 9.880370563680131,
+  "max_client_latency_ms": 4723.8328809980885,
+  "max_dispatch_delay_ms": 1576.4376137422005,
+  "prep_http_attempts": 1154,
+  "prep_status_codes": {
+    "201": 1119,
+    "200": 6,
+    "500": 29
+  },
+  "dispatch_outliers": {
+    "above_10_ms": 4,
+    "above_100_ms": 4,
+    "above_1000_ms": 2
+  },
+  "largest_dispatch_events": [
+    {
+      "request_id": "official-20261031T025905Z-request-005414",
+      "sent_at_utc": "2026-10-31T03:44:07.329213+00:00",
+      "dispatch_delay_ms": 1576.4376137422005
+    },
+    {
+      "request_id": "official-20261031T025905Z-request-005415",
+      "sent_at_utc": "2026-10-31T03:44:07.329767+00:00",
+      "dispatch_delay_ms": 1190.648830200189
+    },
+    {
+      "request_id": "official-20261031T025905Z-request-005416",
+      "sent_at_utc": "2026-10-31T03:44:07.331538+00:00",
+      "dispatch_delay_ms": 253.74976226066792
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "projects/adfasdfasfd-1899a/metricDescriptors/logging.googleapis.com/user/lab_request_latency_ms",
+  "labels": [
+    {
+      "key": "endpoint"
+    },
+    {
+      "key": "customer_tier"
+    },
+    {
+      "key": "log"
+    }
+  ],
+  "metricKind": "DELTA",
+  "valueType": "DISTRIBUTION",
+  "unit": "ms",
+  "description": "Latencia del backend en ms; l\u00edmites 0,1,5,10,25,50,100,250,500,1000,2500,5000,10000,30000,60000.",
+  "type": "logging.googleapis.com/user/lab_request_latency_ms",
+  "monitoredResourceTypes": [
+    "cloud_run_revision"
+  ]
+}

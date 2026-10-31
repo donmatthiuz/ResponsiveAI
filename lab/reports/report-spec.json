@@ -1,0 +1,15 @@
+{
+  "format": "README Markdown",
+  "header": "Mathew Alexander Cordero Aquino - 22982",
+  "repository": "https://github.com/donmatthiuz/ResponsiveAI/tree/labmonitoring",
+  "rubric": null,
+  "official_run_id": "official-20261031T025905Z",
+  "captures_dir": "lab/evidence/official-20261031T025905Z/captures",
+  "requested_captures": [
+    "01_metricas_nativas.png",
+    "02_metricas_logs.png",
+    "03_sql.png",
+    "04_logs_correlacion.png"
+  ],
+  "final_file": "README.md"
+}
